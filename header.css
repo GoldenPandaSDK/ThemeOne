@@ -1,0 +1,337 @@
+/* Float: the status pill (search, network, battery, clock, avatar). Steam draws it in its main window, and while a
+   game runs, a copy inside Quick Access (marked header_InQuickAccess); both get the same styling. */
+
+#header.header_Header {
+  left: auto !important;
+  right: 12px !important;
+  /* 11 device px: the UI renders at 1.2x, and whole device pixels keep the pill's edges and the even gaps
+     around the search field crisp. */
+  top: 9.1667px !important;
+  width: auto !important;
+  height: 30px !important;
+  min-height: 0 !important;
+  max-height: 30px !important;
+  padding: 0 2.5px !important;
+  justify-content: flex-end;
+}
+
+/* The pill is drawn by ::before; the header box itself stays clear (Steam fills it black while a game runs). */
+#header.header_Header {
+  background: transparent !important;
+}
+
+#header.header_Header::before {
+  opacity: 1 !important;
+  inset: 0 !important;
+  border-radius: 999px;
+  background: var(--float-glass-pill) !important;
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke);
+}
+
+#header .header_HeaderItem {
+  box-sizing: border-box;
+  height: 25px !important;
+  align-self: center;
+  padding: 0 7px;
+  border-radius: 999px;
+  color: var(--float-fg);
+}
+
+#header .header_HeaderItem svg {
+  height: 15px;
+}
+
+/* Optical centring: the pill's contents sit a touch high, so shift them 2px down. Padding the items (rather
+   than offsetting their children) also moves the clock, whose text sits directly in its item. The padding is
+   inside the 25px height, so a focused item's white fill stops short of the pill's top and bottom edges. */
+#header .header_HeaderItem {
+  padding-top: 4px !important;
+}
+
+/* The wifi glyph is drawn from the bottom-left of its box; nudge it to sit optically centred. */
+#header .header_WirelessIcon svg {
+  height: 16px !important;
+  transform: translate(1px, -2.5px);
+}
+
+#header .header_HeaderItem.gpfocus,
+#header .header_HeaderItem.gpfocuswithin {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+#header .header_Percentage,
+#header .header_Clock {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+#header .header_Percentage {
+  padding-right: 0 !important;
+}
+
+/* Battery: just the percentage, with a small bolt after it while charging. Steam's icon is hidden; it is still
+   read to tell whether the deck is charging (the bolt shape is only in it then). Once full on power, Steam drops the
+   percentage and shows only a "full" icon, so the percentage is written in, still with the bolt. */
+#header .header_BatteryIconVerticalStack {
+  display: none;
+}
+
+#header .header_BatteryIcon:not(:has(.header_Percentage))::before {
+  content: "100%";
+  font-size: 13px;
+  font-weight: 650;
+}
+
+#header .header_BatteryIcon:has(path[d^="M16 20L21 11"]) .header_Percentage::after,
+#header .header_BatteryIcon:not(:has(.header_Percentage))::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 10px;
+  margin-left: 4px;
+  background: currentColor;
+  -webkit-mask: url("/themes_custom/Float%20-%20Fabian/icons/bolt.svg") center / contain no-repeat;
+}
+
+/* Avatar: the last item. Its focus highlight is a circle centred on the photo, set as far from the pill's
+   right edge as from its top and bottom, so it sits concentric with the pill's rounded end.
+   Steam's status colour bar beside the photo is hidden. */
+#header #header_profile {
+  flex: 0 0 25px;
+  width: 25px;
+  height: 25px;
+  /* With the clock's 7px padding, the photo sits 14px from the clock text, like the gaps between other items. */
+  margin-left: 4.5px;
+  padding: 0 !important;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+}
+
+#header .header_CurrentUserAvatar {
+  margin-right: 0;
+}
+
+
+/* Downloads (shown while something downloads): Steam's arrow-into-tray icon at the size of the other icons, with
+   the tray's bottom edge replaced by the progress bar (a faint track filling white), so the icon itself shows
+   progress. Steam's 24px game portrait (sized for its taller header) is hidden. Positions are in the icon's own
+   36-unit grid scaled to 15px: the tray bottom spans x 2-34 and y 27-32. */
+#header .header_HeaderDownloadContainer {
+  position: relative;
+  height: 15px;
+  align-self: center;
+}
+
+#header .header_HeaderDownloadContainer > svg {
+  height: 15px !important;
+  width: 15px !important;
+  color: var(--float-fg);
+  animation: none !important;
+}
+
+#header .header_HeaderDownloadContainer > svg > path:first-child {
+  display: none;
+}
+
+#header .header_HeaderDownloadContainer > svg .DownloadArrow {
+  animation: none !important;
+}
+
+#header .header_HeaderDownloadContainer .header_HeaderAppPortraitContainer {
+  position: absolute !important;
+  left: 0.8333px;
+  right: 0.8333px;
+  bottom: 1.6667px;
+  height: auto !important;
+}
+
+#header .header_HeaderDownloadContainer .header_HeaderAppPortrait {
+  display: none !important;
+}
+
+#header .header_HeaderDownloadContainer .header_HeaderAppPortraitContainer .header_HeaderDownloadProgressBarBackground {
+  height: 2.0833px !important;
+  margin: 0 !important;
+  border-radius: 1px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.3) !important;
+  animation: none !important;
+}
+
+#header .header_HeaderDownloadContainer .header_HeaderAppPortraitContainer .header_HeaderDownloadProgressBarBackground .header_HeaderDownloadProgressBar {
+  background: var(--float-fg) !important;
+}
+
+/* Focused, on the white highlight: a dark track filling dark. As specific as the rules above, which they replace. */
+#header .header_HeaderItem.gpfocus .header_HeaderDownloadContainer .header_HeaderAppPortraitContainer .header_HeaderDownloadProgressBarBackground,
+#header .header_HeaderItem.gpfocuswithin .header_HeaderDownloadContainer .header_HeaderAppPortraitContainer .header_HeaderDownloadProgressBarBackground {
+  background: rgba(17, 17, 20, 0.2) !important;
+}
+
+#header .header_HeaderItem.gpfocus .header_HeaderDownloadContainer .header_HeaderAppPortraitContainer .header_HeaderDownloadProgressBarBackground .header_HeaderDownloadProgressBar,
+#header .header_HeaderItem.gpfocuswithin .header_HeaderDownloadContainer .header_HeaderAppPortraitContainer .header_HeaderDownloadProgressBarBackground .header_HeaderDownloadProgressBar {
+  background: var(--float-focus-fg) !important;
+}
+
+/* The icon is coloured itself (above), so it doesn't follow the focused item's dark text; set it here too, or the
+   arrow is white on the white highlight. */
+#header .header_HeaderItem.gpfocus .header_HeaderDownloadContainer > svg,
+#header .header_HeaderItem.gpfocuswithin .header_HeaderDownloadContainer > svg {
+  color: var(--float-focus-fg);
+}
+
+#header .header_CurrentUserAvatar {
+  width: 20px;
+  height: 20px;
+}
+
+#header .header_CurrentUserAvatar img,
+#header .header_CurrentUserAvatar .steamavatar_avatarHolder {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#header .header_CurrentUserAvatar .steamavatar_avatarStatus {
+  display: none !important;
+}
+
+/* ---------- Search: lives in the status pill. Collapsed it is just the icon; focused (or on pages that keep it
+   open, like the library) it widens in place into a field while the same icon stays put. ---------- */
+
+/* While a modal is open Steam removes the search icon but keeps its box; drop the box too. */
+#header .searchbar_SearchAndTitleContainer:not(.searchbar_ShowingSearch) {
+  display: none !important;
+}
+
+#header .searchbar_SearchAndTitleContainer {
+  position: relative;
+  top: 0;
+  left: auto;
+  flex: 0 0 auto;
+  align-self: center;
+  width: 26.5px;
+  min-width: 0;
+  max-width: 26.5px;
+  height: 25px;
+  padding: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  pointer-events: auto;
+  transition: width 0.22s ease-out, max-width 0.22s ease-out, background-color 0.15s ease-out;
+}
+
+#header .searchbar_SearchAndTitleContainer.searchbar_ForceExpanded,
+#header .searchbar_SearchAndTitleContainer:focus-within {
+  width: 228px !important;
+  max-width: 228px !important;
+}
+
+#header .searchbar_SearchAndTitleContainer.searchbar_ForceExpanded:not(:focus-within) {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+#header .searchbar_SearchAndTitleContainer:focus-within {
+  background: var(--float-focus) !important;
+}
+
+#header .searchbar_SearchFieldBackground,
+#header .searchbar_SearchIconRight {
+  display: none;
+}
+
+/* One icon for both states, so focusing the field doesn't swap it out. */
+#header .searchbar_SearchIconLeft {
+  display: block;
+  position: absolute;
+  top: 6px;
+  left: 4.5px;
+  height: 15px;
+  margin: 0;
+  transform: none;
+  transition: color 0.15s ease-out;
+  opacity: 1;
+  color: var(--float-fg);
+}
+
+#header .searchbar_SearchAndTitleContainer:focus-within .searchbar_SearchIconLeft {
+  color: var(--float-focus-fg) !important;
+}
+
+/* The field is always in place (invisible while collapsed) so the gamepad can still move up into it. */
+#header .searchbar_SearchBox {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px 0 26.5px;
+  font-size: 13px;
+  font-weight: 550;
+  font-style: normal;
+  color: var(--float-fg);
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.15s ease-out 0.08s;
+}
+
+#header .searchbar_ForceExpanded .searchbar_SearchBox,
+#header .searchbar_SearchAndTitleContainer:focus-within .searchbar_SearchBox {
+  opacity: 1;
+}
+
+#header .searchbar_SearchAndTitleContainer:focus-within .searchbar_SearchBox {
+  color: var(--float-focus-fg) !important;
+}
+
+/* Steam's clear button is a 26px black disc that reserves its space even when the field is empty (clipping the
+   placeholder). Hide it while empty; once there's text, make it a small quiet disc. */
+#header .searchbar_SearchBox:placeholder-shown::-webkit-search-cancel-button {
+  display: none !important;
+}
+
+#header .searchbar_SearchAndTitleContainer input[type="search"]::-webkit-search-cancel-button {
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 9px !important;
+  background-size: 8px 8px !important;
+  background-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+#header .searchbar_SearchAndTitleContainer:focus-within input[type="search"]::-webkit-search-cancel-button {
+  background-color: rgba(17, 17, 20, 0.85) !important;
+}
+
+#header .searchbar_SearchBox::placeholder {
+  color: var(--float-fg-dim);
+  font-style: normal;
+}
+
+#header .searchbar_SearchAndTitleContainer:focus-within .searchbar_SearchBox::placeholder {
+  color: rgba(17, 17, 20, 0.55) !important;
+}
+
+/* The copy inside Quick Access sits in that window's flow. Pin it where the main pill would be: the window's
+   visible part is its leftmost 348px, flush with the screen's right edge. */
+#header.header_Header.header_InQuickAccess {
+  position: absolute !important;
+  right: calc(100% - 348px + 12px) !important;
+  z-index: 10;
+}
+
+/* Opening chats beside the friends list slides the window left so all of it shows, its right edge at the screen's
+   (about 0.5px past it): pin the pill to that edge instead, so it stays put on screen. */
+.QAMFriendExpanded #header.header_Header.header_InQuickAccess {
+  right: 12px !important;
+}
+
+/* Over a running game nothing blurs what is behind this window, so the pill goes nearly opaque, like the card. */
+#header.header_Header.header_InQuickAccess::before {
+  background: rgba(20, 20, 24, 0.92) !important;
+}

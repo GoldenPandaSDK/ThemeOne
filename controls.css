@@ -1,0 +1,351 @@
+/* Float: shared controls (settings, Quick Access, dialogs): rows, buttons, dropdowns, toggles, sliders. */
+
+/* Rows. Separators stay put while focus moves; the highlight is a rounded layer inset inside the row,
+   so it never covers the lines above and below it. */
+.gamepaddialog_Field {
+  border-radius: 12px;
+}
+
+.gamepaddialog_Field.gamepaddialog_HighlightOnFocus.gpfocus,
+.gamepaddialog_Field.gamepaddialog_HighlightOnFocus.gpfocuswithin,
+.gamepaddialog_Field.gamepaddialog_Clickable:not(.gamepaddialog_Disabled):hover {
+  background: transparent !important;
+  margin-top: 0 !important;
+  border-top: none !important;
+  animation: none !important;
+}
+
+.gamepaddialog_Field.gamepaddialog_HighlightOnFocus.gpfocus::after,
+.gamepaddialog_Field.gamepaddialog_HighlightOnFocus.gpfocuswithin::after {
+  display: block !important;
+}
+
+.gamepaddialog_Field.gamepaddialog_HighlightOnFocus.gpfocus::before,
+.gamepaddialog_Field.gamepaddialog_HighlightOnFocus.gpfocuswithin::before {
+  content: "";
+  position: absolute;
+  inset: 2px 0;
+  z-index: -1;
+  border-radius: 12px;
+  background: var(--float-active);
+  pointer-events: none;
+}
+
+/* When a button, dropdown or text field inside the row has focus, that control turns white; the row stays clear. */
+.gamepaddialog_Field.gamepaddialog_HighlightOnFocus.gpfocuswithin:has(button.DialogButton.gpfocus, .gamepaddropdown_DropDownControlButton.gpfocus, .Shared_Radio_Group .gpfocus, .gamepaddialog_BasicTextInput.gpfocus)::before {
+  display: none;
+}
+
+/* Steam's newer card-style rows are filled with a blue-grey. Float turns them into a plain list everywhere (sp.css);
+   a card row it leaves as a card, like SteamGridDB's size slider in a toolbar, gets a neutral grey instead. The class
+   has no readable name yet. */
+.gamepaddialog_Field._2CCdODv0vfzOMrEBUzZwfI {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gamepaddialog_Field::after,
+.gamepaddialog_StandaloneFieldSeparator {
+  background: var(--float-hairline) !important;
+}
+
+.gamepaddialog_FieldDescription {
+  color: var(--float-fg-dim) !important;
+}
+
+/* Buttons and dropdowns: pills, white when focused */
+button.DialogButton,
+.DialogButton.gamepaddialog_Button,
+.gamepaddropdown_DropDownControlButton {
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: inset 0 0 0 1px var(--float-hairline) !important;
+  color: var(--float-fg) !important;
+  font-weight: 650 !important;
+  animation: none !important;
+}
+
+button.DialogButton.gpfocus,
+button.DialogButton:focus,
+.DialogButton.gamepaddialog_Button.gpfocus,
+.gamepaddropdown_DropDownControlButton.gpfocus,
+button.DialogButton.Primary.gpfocus,
+button.DialogButton.Primary:focus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+}
+
+button.DialogButton.gpfocus svg,
+.gamepaddropdown_DropDownControlButton.gpfocus svg {
+  color: var(--float-focus-fg);
+  fill: currentColor;
+}
+
+button.DialogButton.Destructive.gpfocus,
+button.DialogButton.Destructive:focus {
+  background: #ff453a !important;
+  color: #ffffff !important;
+}
+
+/* Toggles: faint track with a white knob when off; solid white track with a dark knob when on. */
+.gamepaddialog_ToggleRail,
+.gamepaddialog_Field.gpfocuswithin .gamepaddialog_ToggleRail {
+  background: var(--float-faint) !important;
+  transition: background 0.18s ease-out;
+}
+
+.gamepaddialog_ToggleRail::before {
+  display: none;
+}
+
+.gamepaddialog_Toggle.gamepaddialog_On .gamepaddialog_ToggleRail {
+  background: var(--float-focus) !important;
+}
+
+.gamepaddialog_ToggleSwitch {
+  top: 3px !important;
+  bottom: 3px !important;
+  left: 3px !important;
+  width: 16px !important;
+  background: var(--float-fg) !important;
+  box-shadow: none !important;
+  transition: transform 0.18s ease-out, background 0.18s ease-out !important;
+}
+
+.gamepaddialog_Toggle.gamepaddialog_On .gamepaddialog_ToggleSwitch {
+  background: var(--float-focus-fg) !important;
+}
+
+.gamepaddialog_Toggle.gamepaddialog_Disabled {
+  opacity: 0.4;
+}
+
+.gamepaddialog_Toggle.gamepaddialog_Disabled .gamepaddialog_ToggleSwitch {
+  background: var(--float-fg) !important;
+}
+
+/* The row highlight already marks focus; drop Steam's grey halo and knob border. */
+.gamepaddialog_Toggle.gpfocus::after {
+  display: none !important;
+}
+
+.gamepaddialog_Toggle.gpfocus .gamepaddialog_ToggleSwitch {
+  border: none !important;
+  margin: 0 !important;
+}
+
+/* Segmented choices (radio groups): a faint track, the chosen option filled, the focused one white. */
+.Shared_Radio_Group {
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.Shared_Radio_Group .RadioButton {
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: var(--float-fg-soft) !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+.Shared_Radio_Group .RadioButton::before {
+  display: none !important;
+}
+
+.Shared_Radio_Group .RadioButton[aria-checked="true"] {
+  background: var(--float-faint) !important;
+  color: var(--float-fg) !important;
+}
+
+.Shared_Radio_Group .RadioButton.gpfocus,
+.Shared_Radio_Group .RadioButton:focus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+/* Sliders: white fill and handle */
+/* The value box beside a slider, filled blue-grey in Steam's newer layout: a faint neutral field. */
+.gamepadslider_EditableValue {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 8px;
+}
+
+.gamepadslider_SliderControlAndNotches,
+.gamepadslider_SliderControl {
+  --left-track-color: var(--float-focus);
+}
+
+.gamepadslider_SliderTrack {
+  --left-track-color: var(--float-focus) !important;
+  background: var(--float-faint) !important;
+}
+
+.gamepadslider_SliderHandle {
+  background: var(--float-focus) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+}
+
+.gamepadslider_SliderNotchLabel {
+  color: var(--float-fg-dim);
+}
+
+/* Notch ticks follow the track: white up to the value, faint after it (Steam's are blue). */
+.gamepadslider_SliderNotchContainer .gamepadslider_SliderNotchTick {
+  border-radius: 999px;
+  background-color: var(--float-faint);
+}
+
+.gamepadslider_SliderNotchContainer .gamepadslider_SliderNotchTick.gamepadslider_TickActive {
+  background-color: var(--float-focus);
+}
+
+/* Checkbox rows: a quiet rounded row, the box a rounded square that turns white with a dark tick. */
+.DialogCheckbox_Container {
+  border-radius: 12px !important;
+}
+
+.DialogCheckbox {
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 6px !important;
+  background: var(--float-faint) !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.DialogCheckbox .SVGIcon_DialogCheck {
+  margin: 0 !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.DialogCheckbox.Active {
+  background: var(--float-focus) !important;
+}
+
+.DialogCheckbox.Active .SVGIcon_DialogCheck path {
+  stroke: var(--float-focus-fg) !important;
+  fill: none !important;
+}
+
+/* Text fields: rounded, faint, upright placeholder; white while editing. */
+.gamepaddialog_BasicTextInput,
+.DialogTextInputBase {
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: none !important;
+}
+
+.gamepaddialog_BasicTextInput.gpfocus,
+.gamepaddialog_BasicTextInput:focus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+.gamepaddialog_BasicTextInput::placeholder,
+.DialogInputPlaceholder::placeholder {
+  font-style: normal !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.gamepaddialog_BasicTextInput.gpfocus::placeholder,
+.gamepaddialog_BasicTextInput:focus::placeholder {
+  color: rgba(17, 17, 20, 0.45) !important;
+}
+
+/* The "Controller settings" button under a game's controller summary: a pill like the other buttons. */
+.controllerconfiguratorsummary_ConfigButton {
+  margin-bottom: 14px !important;
+  border-radius: 999px !important;
+  padding-left: 22px !important;
+  padding-right: 22px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--float-fg) !important;
+  font-weight: 650 !important;
+  animation: none !important;
+}
+
+.controllerconfiguratorsummary_ConfigButton.gpfocus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+/* Controller glyph images (Float's and Steam's are both white) disappear on a white focused row or button:
+   invert them there, as Steam does on its on-screen keyboard. */
+.gamepadpagedsettings_PagedSettingsDialog_PageListItem.gpfocus img,
+.gamepadpagedsettings_PagedSettingsDialog_PageListItem:focus img,
+button.DialogButton.gpfocus img[src*="glyphs"],
+.DialogButton.gamepaddialog_Button.gpfocus img[src*="glyphs"],
+.gamepaddropdown_DropDownControlButton.gpfocus img[src*="glyphs"] {
+  filter: invert(1) !important;
+}
+
+/* Sidebar icons drawn with fixed light colours (not the text colour) stay faint on the white focused row. */
+.gamepadpagedsettings_PagedSettingsDialog_PageListItem.gpfocus svg,
+.gamepadpagedsettings_PagedSettingsDialog_PageListItem:focus svg {
+  filter: brightness(0);
+}
+
+/* Keyboard key hints. With a keyboard in use, Steam shows keys instead of controller glyphs: an image-role group of
+   keycaps (a hidden box per key, its name inside) with a "+" between keys of a combination. Drawn like Float's
+   controller glyphs: a faint rounded key with its name in white, and no 3D edge. Matched by structure, since these
+   classes have no readable names to target. */
+div[role="img"]:has(> div[aria-hidden="true"] > div) {
+  gap: 3px;
+}
+
+div[role="img"] > div[aria-hidden="true"]:has(> div) {
+  box-sizing: border-box;
+  height: 15px;
+  margin: 0;
+  padding: 0 5px;
+  border: none;
+  border-radius: 4px;
+  background: var(--float-faint);
+  color: var(--float-fg);
+  font-size: 9.5px;
+  font-weight: 750;
+  line-height: 15px;
+  letter-spacing: 0.02em;
+}
+
+div[role="img"] > div[aria-hidden="true"]:has(> div)::before,
+div[role="img"] > div[aria-hidden="true"]:has(> div)::after {
+  display: none;
+}
+
+div[role="img"] > div[aria-hidden="true"] > div {
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+/* The "+" in a combination. */
+div[role="img"]:has(> div[aria-hidden="true"] > div) > div[aria-hidden="true"]:not(:has(> div)) {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--float-fg-dim);
+}
+
+/* On a white, focused row: a dark key. */
+.gpfocus div[role="img"] > div[aria-hidden="true"]:has(> div) {
+  background: rgba(17, 17, 20, 0.12);
+  color: var(--float-focus-fg);
+}
+
+/* The hint pill sizes each glyph as a 15px square; a key is as wide as its name. */
+#Footer div[role="img"].actionbuttonlegenditem_FooterGlyphSize {
+  width: auto;
+}
+
+/* The tab bar's shoulder-button hints, dimmed like the L1 / R1 glyphs they replace. */
+.gamepadtabbedpage_Glyphs div[role="img"] {
+  padding: 0 2px;
+  opacity: 0.75;
+}

@@ -1,0 +1,42 @@
+/* Float: tokens and typography shared by every Steam window. Sizes are CSS px (the UI renders at 1.2x). */
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/themes_custom/Float%20-%20Fabian/fonts/Manrope.ttf") format("truetype");
+  font-weight: 200 800;
+  font-display: block;
+}
+
+:root {
+  --float-base: #0e0e10;
+  --float-glass: rgba(22, 22, 26, 0.45);
+  --float-glass-pill: rgba(16, 16, 20, 0.58);
+  --float-glass-strong: rgba(22, 22, 26, 0.78);
+  --float-glass-card: rgba(24, 24, 28, 0.62);
+  --float-stroke: rgba(255, 255, 255, 0.14);
+  --float-blur: 24px;
+  --float-fg: #ffffff;
+  --float-fg-soft: rgba(255, 255, 255, 0.85);
+  --float-fg-dim: rgba(255, 255, 255, 0.62);
+  --float-faint: rgba(255, 255, 255, 0.18);
+  --float-active: rgba(255, 255, 255, 0.12);
+  --float-hairline: rgba(255, 255, 255, 0.08);
+  --float-focus: #ffffff;
+  --float-focus-fg: #111114;
+  --float-radius-card: 20px;
+  --float-radius-item: 10px;
+  --float-radius-capsule: 10px;
+  --float-shadow-lift: 0 10px 26px rgba(0, 0, 0, 0.5);
+  --float-font: "Manrope", "Twemoji", "Noto Sans", sans-serif;
+}
+
+/* One typeface, sentence case everywhere (Steam uppercases many labels with CSS). */
+* {
+  font-family: var(--float-font) !important;
+  text-transform: none !important;
+}
+
+/* Friends list (Friends page and Quick Access): group dividers in Steam blue become hairlines. */
+.friendGroup {
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
+}

@@ -1,0 +1,6 @@
+/* Float, "Shelf blur" option: light. Full-size art, softened; scaled a touch to cover the faded edges. */
+:root {
+  --float-shelf-art-size: 100%;
+  --float-shelf-art-scale: 1.03;
+  --float-shelf-blur: 4px;
+}

@@ -1,0 +1,1846 @@
+/* Float: main gamepad UI (Big Picture page). */
+
+/* ---------- Base ---------- */
+
+#GamepadUI_Full_Root,
+.gamepadlibrary_GamepadLibrary,
+.gamepadpage_DialogBackground {
+  background: var(--float-base) !important;
+}
+
+/* While a game is running Steam makes the root see-through, so the game shows behind the Steam menu. */
+#GamepadUI_Full_Root.gamepadui_TransparentBackground {
+  background: transparent !important;
+}
+
+/* ---------- Volume pop-up: a frosted pill at the top centre, the same height as the status pill. It slides
+   down from above the screen when the volume changes. ---------- */
+
+.audio_VolumePopin {
+  top: 9.1667px !important;
+  left: calc(50% - 110px) !important;
+  width: 220px !important;
+  height: 30px;
+  padding: 0 !important;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-radius: 999px !important;
+  background: var(--float-glass-pill) !important;
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+}
+
+.audio_VolumePopinHidden {
+  box-shadow: none !important;
+}
+
+.audio_VolumeSliderPosition {
+  /* One device pixel down, onto the same line as the status pill's (optically lowered) contents. */
+  position: relative;
+  top: 0.8333px;
+  padding: 0 13px 0 12px !important;
+}
+
+.audio_VolumePopin .gamepaddialog_Field {
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.audio_VolumePopin .gamepaddialog_Field::before,
+.audio_VolumePopin .gamepaddialog_Field::after {
+  display: none !important;
+}
+
+.audio_VolumePopin .gamepaddialog_FieldIcon {
+  width: 15px;
+  min-width: 0;
+  margin: 0;
+  padding-inline-end: 10px !important;
+  color: var(--float-fg);
+}
+
+.audio_VolumePopin .gamepaddialog_FieldIcon svg {
+  width: 15px;
+  height: 15px;
+  color: var(--float-fg);
+  fill: currentColor;
+}
+
+.audio_VolumePopin .gamepadslider_SliderTrack {
+  height: 4px !important;
+  border-radius: 2px;
+}
+
+/* ---------- Footer: a centered floating pill of button hints ---------- */
+
+#Footer.footer_BasicFooter {
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  width: fit-content;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: none;
+  border-image: none;
+  /* Hints, not controls: a lighter pill with dimmed contents, so it recedes behind the screen it describes. */
+  background: rgba(16, 16, 20, 0.28);
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+#Footer .footer_FooterLegend {
+  padding: 0;
+  gap: 4px;
+  opacity: 0.42;
+}
+
+#Footer .footer_Spacer {
+  display: none;
+}
+
+#Footer .actionbuttonlegenditem_ActionButtonLegend {
+  padding: 6px 6px;
+  border-radius: 999px;
+}
+
+#Footer .actionbuttonlegenditem_ActionButtonLabel {
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--float-fg-soft);
+}
+
+#Footer .actionbuttonlegenditem_FooterGlyphSize {
+  width: 15px;
+  height: 15px;
+}
+
+#Footer .footericons_Background {
+  fill: var(--float-faint);
+}
+
+#Footer .footericons_Foreground {
+  fill: var(--float-fg);
+}
+
+/* Pill-shaped glyphs (Options, View) are drawn small inside a square box; give them room to match STEAM. */
+#Footer img[src$="sd_button_menu.svg"],
+#Footer img[src$="sd_button_view.svg"] {
+  width: 26px !important;
+  height: 26px !important;
+  margin: -6px 0;
+}
+
+#Footer .actionbuttonlegenditem_ActionButtonGlyph svg {
+  height: 13px;
+  width: auto;
+}
+
+/* ---------- Focus: white outline on art, white fill on controls, no Steam animations ---------- */
+
+.focusring_FocusRing {
+  outline-color: var(--float-focus) !important;
+  animation: none !important;
+}
+
+/* ---------- Home ---------- */
+
+.gamepadhomerecentgames_RecentGamesBackgroundContainer,
+.gamepadhomerecentgames_RecentGamesBackgroundImages,
+.gamepadhomerecentgames_RecentGamesBackground {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.gamepadhomerecentgames_RecentGamesBackgroundImage {
+  filter: none !important;
+}
+
+/* Hero art is a ~3:1 banner. Covering the whole 16:10 screen (and Steam's slow zoom anchored at the bottom left)
+   showed only about half of it, off-centre. Give it the top two thirds instead, centred, fading into the base
+   behind the covers: ~78% of its width stays visible. */
+.gamepadhomerecentgames_RecentGamesBackgroundImages .gamepadhomerecentgames_RecentGamesBackground {
+  height: 66% !important;
+  animation: none !important;
+  -webkit-mask-image: linear-gradient(to bottom, #000 38%, rgba(0, 0, 0, 0.78) 58%, rgba(0, 0, 0, 0.42) 76%, rgba(0, 0, 0, 0.14) 90%, transparent 100%) !important;
+  mask-image: linear-gradient(to bottom, #000 38%, rgba(0, 0, 0, 0.78) 58%, rgba(0, 0, 0, 0.42) 76%, rgba(0, 0, 0, 0.14) 90%, transparent 100%) !important;
+}
+
+.gamepadhomerecentgames_RecentGamesBackgroundImage {
+  object-position: center center;
+}
+
+.gamepadhomerecentgames_RecentGamesBackgroundContainer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 14, 16, 0) 32%,
+    rgba(14, 14, 16, 0.4) 66%
+  );
+  pointer-events: none;
+}
+
+.gamepadhomerecentgames_RecentGamesBackgroundFadeGradient {
+  display: none;
+}
+
+.gamepadhomerecentgames_RecentGamesHeader {
+  display: none;
+}
+
+/* Carousel sits low on the screen, above the hint pill, scaled down to lighter covers. The scale lives on the row's
+   (non-scrolling) parent, which makes that parent the reference for the fixed-position title below; on the row
+   itself the title would scroll away with the covers. */
+:root {
+  --float-carousel-scale: 0.87;
+  /* Steam sizes the row's covers by the screen's size in CSS px, which the interface scale changes: 110px wide when
+     the screen is at most 853px wide or 500px tall, 172px when it's at least 1280px wide, otherwise 134px. Covers
+     are 1.5 times as tall as they're wide, and the row is 110px taller than a cover (title space and padding). */
+  --float-cover-w: 134px;
+  --float-cover-h: calc(var(--float-cover-w) * 1.5);
+  --float-row-h: calc(var(--float-cover-w) * 1.5 + 110px);
+}
+
+@media (max-width: 853px), (max-height: 500px) {
+  :root {
+    --float-cover-w: 110px;
+  }
+}
+
+@media (min-width: 1280px) and (min-height: 500.5px) {
+  :root {
+    --float-cover-w: 172px;
+  }
+}
+
+.gamepadhomerecentgames_RecentGamesInnerContainer {
+  height: calc(100vh - 56px);
+}
+
+.gamepadhomerecentgames_RecentGamesInnerContainer .Panel:has(> .basicgamecarousel_BasicGameCarousel) {
+  position: absolute !important;
+  left: 11px;
+  bottom: 0;
+  /* 24px narrower than the screen: the row takes its scroll limit from this width, and Steam's focus scrolling
+     goes up to 18px past the limit it would otherwise get, then snaps back when the row clamps it. The row's own
+     box (below) adds the 24px back. */
+  width: calc((100% - 11px) / var(--float-carousel-scale) - 24px);
+  height: calc(100% / var(--float-carousel-scale));
+  transform: scale(var(--float-carousel-scale));
+  transform-origin: 0 100%;
+}
+
+/* The row clips whatever overflows it (it scrolls sideways), which would cut the focused cover's glow into a
+   rectangle. Grow its box past the screen's left edge and below the covers, padding the covers back into place. */
+.gamepadhomerecentgames_RecentGamesInnerContainer .basicgamecarousel_BasicGameCarousel {
+  position: absolute !important;
+  top: calc(100% - 34px / var(--float-carousel-scale) - var(--float-row-h) - 3.5px) !important;
+  bottom: auto !important;
+  left: -48px !important;
+  width: calc(100% + 48px + 24px) !important;
+  height: calc(var(--float-row-h) + 64px) !important;
+  padding-top: 80px;
+  padding-left: calc(2.8vw + 48px);
+  will-change: auto !important;
+}
+
+/* The focused game's title: pinned at the left just above the row instead of following the focused cover.
+   Anchored by its bottom (11px above the covers) so a longer title grows upwards. */
+.basicgamecarousel_CarouselGameLabelWrapper {
+  position: fixed;
+  top: auto !important;
+  bottom: calc(34px / var(--float-carousel-scale) + var(--float-row-h) - 65.1px) !important;
+  left: 25px !important;
+  width: 80vw !important;
+  padding-top: 0;
+}
+
+/* Focus on the home row: the other covers dim, and the focused one sits on a soft glow made from its own art
+   that slowly breathes. */
+.basicgamecarousel_BasicGameCarousel .appportrait_LibraryItemBox,
+.basicgamecarousel_TextBoxCarouselContents {
+  transition: filter 0.3s ease-out, opacity 0.3s ease-out, background-color 0.2s ease-out, color 0.2s ease-out !important;
+}
+
+.basicgamecarousel_BasicGameCarousel:has(.gpfocus) .appportrait_LibraryItemBox:not(.gpfocus) {
+  filter: brightness(0.5) saturate(0.8) !important;
+}
+
+.basicgamecarousel_BasicGameCarousel .basicgamecarousel_CarouselCapsuleBackgroundGlow {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  z-index: -1;
+  border-radius: 16px;
+  overflow: hidden;
+  filter: blur(22px) saturate(1.8) brightness(1.15);
+  transform: translateY(10px) scale(1.1);
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
+  pointer-events: none;
+}
+
+.basicgamecarousel_BasicGameCarousel .basicgamecarousel_CarouselCapsuleBackgroundGlow img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.basicgamecarousel_BasicGameCarousel .gpfocuswithin ~ .basicgamecarousel_CarouselCapsuleBackgroundGlow {
+  opacity: 0.9;
+  animation: float-glow-breathe 3s ease-in-out infinite alternate;
+}
+
+@keyframes float-glow-breathe {
+  from {
+    transform: translateY(6px) scale(1.06);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateY(14px) scale(1.24);
+    opacity: 1;
+  }
+}
+
+/* "View more in your Library" as a small deck of cards: the tile is the front card and its slot's two layers
+   are the cards behind it. Idle, the deck sits a little smaller than a cover with the back cards tucked in;
+   selected, it grows, fans open, and the front card turns white (which is the focus indicator, so Steam's
+   separate focus ring overlay is hidden on the home page). The tabs below the row (What's New, Friends, Recommended)
+   draw their selection on the focused card itself: see "Home tabs". */
+.gamepadhome_ScrollArea > .focusring_FocusRingRoot .focusring_FocusRing {
+  display: none !important;
+}
+
+.basicgamecarousel_BasicGameCarouselItem:has(> .basicgamecarousel_TextBoxCarouselContents) {
+  position: relative;
+  /* Keeps the back cards layered just behind the front card, above the neighbouring cover. Without it they only
+     stay above that cover while the opacity below is animating, and drop behind it once it reaches 1. */
+  isolation: isolate;
+  opacity: 0.6;
+  transition: opacity 0.3s ease-out;
+}
+
+.basicgamecarousel_BasicGameCarouselItem:has(> .basicgamecarousel_TextBoxCarouselContents.gpfocus) {
+  opacity: 1;
+}
+
+/* Back cards, the size of a cover. */
+.basicgamecarousel_BasicGameCarouselItem:has(> .basicgamecarousel_TextBoxCarouselContents)::before,
+.basicgamecarousel_BasicGameCarouselItem:has(> .basicgamecarousel_TextBoxCarouselContents)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: var(--float-cover-w);
+  height: var(--float-cover-h);
+  box-sizing: border-box;
+  border-radius: var(--float-radius-capsule);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px var(--float-stroke);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.3s ease-out;
+}
+
+.basicgamecarousel_BasicGameCarouselItem:has(> .basicgamecarousel_TextBoxCarouselContents)::before {
+  transform: translate(0.5px, 1px) rotate(4deg) scale(0.886);
+}
+
+.basicgamecarousel_BasicGameCarouselItem:has(> .basicgamecarousel_TextBoxCarouselContents)::after {
+  transform: translate(1.5px, 1.5px) rotate(-4deg) scale(0.886);
+}
+
+.basicgamecarousel_BasicGameCarouselItem:has(> .basicgamecarousel_TextBoxCarouselContents.gpfocus)::before {
+  transform: translate(-1.5px, 1px) rotate(11deg) scale(0.971);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.basicgamecarousel_BasicGameCarouselItem:has(> .basicgamecarousel_TextBoxCarouselContents.gpfocus)::after {
+  transform: translate(6px, 2px) rotate(-11deg) scale(0.971);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Front card: Steam's sentence is hidden and replaced by an icon and a short label. */
+.basicgamecarousel_BasicGameCarouselItem .basicgamecarousel_TextBoxCarouselContents {
+  box-sizing: border-box;
+  padding: 0 !important;
+  border-radius: var(--float-radius-capsule) !important;
+  background: #2a2a30 !important;
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+  color: var(--float-fg-soft) !important;
+  font-size: 0;
+  transform: scale(0.886);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease-out, color 0.2s ease-out !important;
+  animation: none !important;
+}
+
+.basicgamecarousel_BasicGameCarouselItem .basicgamecarousel_TextBoxCarouselContents::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  margin-bottom: 9px;
+  background: currentColor;
+  -webkit-mask: url("/themes_custom/Float%20-%20Fabian/icons/layers.svg") center / contain no-repeat;
+}
+
+.basicgamecarousel_BasicGameCarouselItem .basicgamecarousel_TextBoxCarouselContents::after {
+  content: "Library";
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.basicgamecarousel_BasicGameCarouselItem .basicgamecarousel_TextBoxCarouselContents.gpfocus {
+  background: var(--float-focus) !important;
+  box-shadow: var(--float-shadow-lift) !important;
+  color: var(--float-focus-fg) !important;
+  transform: scale(0.971);
+}
+
+.basicgamecarousel_BasicGameCarouselItem .basicgamecarousel_TextBoxCarouselContents.gpfocus::after {
+  content: "Open library";
+}
+
+/* Library ambient: the focused cover's art, blurred small and then scaled far past the screen edges,
+   so the grid floats over that game's colours. Blur runs before the scale, which keeps it cheap. */
+.appgrid_LibraryImageBackgroundGlow.appgrid_LibraryImageBackgroundGlow {
+  filter: blur(9px) saturate(1.35) brightness(0.75) !important;
+  transform: scale(14) !important;
+  opacity: 0 !important;
+  transition: opacity 0.6s ease !important;
+}
+
+/* Steam's perspective (for its 3D focus lift) makes every cover a stacking context, so the glow would
+   paint over the covers before it. Flatten it and lift the focused cover with a plain scale instead. */
+.cssgrid_CSSGrid .appportrait_Draggable {
+  position: relative;
+  perspective: none;
+  will-change: auto;
+}
+
+.cssgrid_CSSGrid .appportrait_LibraryItemBox.gpfocus,
+.cssgrid_CSSGrid .appportrait_HoversEnabled .appportrait_LibraryItemBox:hover {
+  transform: scale(1.06) !important;
+}
+
+.appportrait_HoversEnabled.gpfocuswithin > .appgrid_LibraryImageBackgroundGlow.appgrid_LibraryImageBackgroundGlow,
+.appportrait_HoversEnabled:hover > .appgrid_LibraryImageBackgroundGlow.appgrid_LibraryImageBackgroundGlow {
+  opacity: 0.42 !important;
+}
+
+/* Focused game's title + playtime. Steam sizes and clips these boxes for an 18px title. */
+.basicgamecarousel_CarouselGameLabelWrapper,
+.basicgamecarousel_CarouselGameLabel,
+.basicgamecarousel_CarouselGameLabel .appportrait_PortraitMessage {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.basicgamecarousel_CarouselGameLabel .appportrait_Message .marquee_Container {
+  height: auto !important;
+  padding-bottom: 4px;
+}
+
+.basicgamecarousel_CarouselGameLabel .appportrait_SubMessage {
+  line-height: 18px !important;
+}
+
+.basicgamecarousel_CarouselGameLabel .appportrait_Message {
+  font-size: 32px !important;
+  font-weight: 750 !important;
+  letter-spacing: -0.5px;
+  line-height: 38px !important;
+  /* A tight shadow: the title's box clips its overflow (so long names can scroll), which would cut a soft, wide
+     shadow off in a visible rectangle. */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35) !important;
+}
+
+.basicgamecarousel_CarouselGameLabel .appportrait_SubMessage,
+.basicgamecarousel_CarouselGameLabel .basicgamecarousel_SubMessage {
+  margin-top: 3px;
+  font-size: 14px !important;
+  font-weight: 550 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--float-fg-dim) !important;
+  mix-blend-mode: normal !important;
+}
+
+.basicgamecarousel_ActionIcon {
+  display: none;
+}
+
+/* ---------- Capsules (home + library) ---------- */
+
+.appportrait_SteamDeckCompatIcon,
+.gamecapsule_DeckCompat {
+  display: none !important;
+}
+
+.appportrait_LibraryItemBox,
+.appportrait_LibraryItemBox .appportrait_PortraitImage,
+.appportrait_LibraryItemBox .libraryassetimage_Container,
+.appportrait_LibraryItemBox img.libraryassetimage_Image {
+  border-radius: var(--float-radius-capsule) !important;
+}
+
+.appportrait_LibraryItemBox {
+  overflow: hidden;
+  filter: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.BasicUI .appportrait_LibraryItemBox::after {
+  display: none !important;
+}
+
+.BasicUI .appportrait_LibraryItemBox.Focusable:focus,
+.appportrait_LibraryItemBox.gpfocus {
+  outline: 2px solid var(--float-focus) !important;
+  outline-offset: 0 !important;
+  box-shadow: var(--float-shadow-lift) !important;
+  animation: none !important;
+}
+
+/* ---------- Game page: art fills the screen, play row floats at the bottom ---------- */
+
+:root {
+  --float-play-row: 58px;
+  --float-footer-space: 72px;
+}
+
+.BasicUI .sharedappdetailsheader_TopCapsule {
+  height: calc(100vh - var(--float-play-row) - var(--float-footer-space)) !important;
+}
+
+.sharedappdetailsheader_HeaderBackgroundImage {
+  height: 100vh;
+}
+
+.sharedappdetailsheader_HeaderBackgroundImage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 14, 16, 0) 45%,
+    rgba(14, 14, 16, 0.55) 72%,
+    rgba(14, 14, 16, 0.92) 100%
+  );
+  pointer-events: none;
+}
+
+.sharedappdetailsheader_TopGradient,
+.sharedappdetailsheader_ImgBlur,
+.sharedappdetailsheader_ImgBlurBackdrop {
+  display: none !important;
+}
+
+.basicappdetailssectionstyler_PlaySection,
+.sharedappdetailsheader_TitleSection,
+.appdetailsoverview_Backdrop,
+.appdetailsoverview_BackdropGlass {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.basicappdetailssectionstyler_PlaySection {
+  padding-top: 8px !important;
+  padding-bottom: calc(8px + var(--float-footer-space)) !important;
+}
+
+/* The details panel: clear behind the play row, solid base under the scrolled content */
+.basicappdetailssectionstyler_AppDetailsRoot {
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--float-play-row) + var(--float-footer-space)),
+    var(--float-base) calc(var(--float-play-row) + var(--float-footer-space) + 80px)
+  ) !important;
+}
+
+.appdetails_ScrollContainer {
+  background: var(--float-base) !important;
+}
+
+.basicappdetailssectionstyler_AppActionButton {
+  min-width: 0 !important;
+}
+
+/* Play button: glass pill, white when focused. Steam's focus shine is a square-cornered ::after frame. */
+.appactionbutton_ButtonChild::before,
+.appactionbutton_ButtonChild::after,
+.appdetailsplaysection_ButtonChild::after {
+  display: none !important;
+}
+
+.appactionbutton_PlayButtonContainer {
+  background: transparent !important;
+  border-radius: 999px !important;
+  height: auto !important;
+}
+
+.appactionbutton_PlayButton.appactionbutton_ButtonChild {
+  min-width: 0 !important;
+  width: auto !important;
+  height: 42px !important;
+  padding: 0 26px 0 20px !important;
+  gap: 2px;
+  border-radius: 999px !important;
+  background: var(--float-glass-pill) !important;
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+  color: var(--float-fg) !important;
+  animation: none !important;
+}
+
+.appactionbutton_PlayButton.appactionbutton_ButtonChild svg {
+  width: 18px;
+  height: 18px;
+}
+
+.appactionbutton_PlayButton .appactionbutton_ButtonText,
+.appactionbutton_PlayButton svg {
+  color: inherit !important;
+  fill: currentColor;
+}
+
+.appactionbutton_PlayButton .appactionbutton_ButtonText {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+}
+
+.BasicUI .appactionbutton_PlayButtonContainer .appactionbutton_ButtonChild.Focusable:focus,
+.appactionbutton_PlayButton.appactionbutton_ButtonChild.gpfocus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+  box-shadow: var(--float-shadow-lift) !important;
+}
+
+/* While the game runs: Resume, with a round "close game" button beside it (like the controller and manage
+   buttons). Focused it turns white; the forced-quit variant turns red. */
+.appactionbutton_PlayButtonContainer:has(.appactionbutton_ShutdownAppButton) {
+  gap: 8px;
+  align-items: center;
+}
+
+.appactionbutton_ShutdownAppButton {
+  width: 40px !important;
+  height: 40px !important;
+  flex: 0 0 40px;
+  border-radius: 999px !important;
+  background: var(--float-glass-pill) !important;
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+  color: var(--float-fg) !important;
+}
+
+.BasicUI .appactionbutton_ShutdownAppButton svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: currentColor !important;
+  color: inherit !important;
+}
+
+.appactionbutton_ShutdownAppButton svg circle,
+.appactionbutton_ShutdownAppButton svg polyline {
+  stroke: currentColor !important;
+}
+
+.appactionbutton_ShutdownAppButton.gpfocus,
+.appactionbutton_ShutdownAppButton:focus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+  box-shadow: var(--float-shadow-lift) !important;
+}
+
+.appactionbutton_ShutdownAppButton.gpfocus.appactionbutton_ForceShutdownButton {
+  background: #ff453a !important;
+  color: #ffffff !important;
+}
+
+/* Last played / play time */
+.appdetailsplaysection_PlayBarLabel {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--float-fg-dim) !important;
+}
+
+.appdetailsplaysection_PlayBarDetailLabel {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.appdetailsplaysection_Playtime {
+  display: none !important;
+}
+
+/* Round controller / manage buttons */
+.appdetailsplaysection_MenuButton {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 999px !important;
+  background: var(--float-glass-pill) !important;
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+  color: var(--float-fg) !important;
+  animation: none !important;
+}
+
+.appdetailsplaysection_MenuButton svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.appdetailsplaysection_MenuButton.gpfocus,
+.appdetailsplaysection_MenuButton:focus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+  box-shadow: var(--float-shadow-lift) !important;
+}
+
+.basicappdetailssectionstyler_AppButtons {
+  align-items: center;
+}
+
+/* ProtonDB badge (plugin) as a small glass pill */
+.protondb-decky-indicator {
+  border-radius: 999px !important;
+  background: var(--float-glass-pill) !important;
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+  color: var(--float-fg) !important;
+}
+
+/* ---------- Tabs (library, game page) ---------- */
+
+.gamepadtabbedpage_Tab {
+  padding: 6px 14px !important;
+  max-height: none !important;
+  border-radius: 999px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--float-fg) !important;
+  animation: none !important;
+}
+
+.gamepadtabbedpage_Tab .gamepadtabbedpage_TabCount {
+  color: var(--float-fg-dim) !important;
+  font-weight: 600;
+}
+
+.gamepadtabbedpage_Tab.gamepadtabbedpage_Selected {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+.gamepadtabbedpage_Tab.gamepadtabbedpage_Selected .gamepadtabbedpage_TabCount {
+  color: rgba(17, 17, 20, 0.6) !important;
+}
+
+/* Library tab row: one centered glass pill with small L1 / R1 hints at its ends */
+/* The band behind the tab row: Steam gives it a heavy blur, a drop shadow and a hard bottom edge, even at the top
+   of the page. Float shows nothing there until the content scrolls under the row, then a soft fade with no edge. */
+.gamepadtabbedpage_TabHeaderRowWrapper::before {
+  background: linear-gradient(to bottom, rgba(14, 14, 16, 0.7), rgba(14, 14, 16, 0)) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+}
+
+.gamepadtabbedpage_TabHeaderRowWrapper.gamepadtabbedpage_ScrolledDown::before {
+  opacity: 1;
+}
+
+.gamepadtabbedpage_TabRow {
+  margin-top: 10px !important;
+}
+
+.gamepadtabbedpage_TabRow {
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  height: auto;
+  margin: 0 auto;
+  padding: 1px 4px;
+  justify-content: center;
+  align-items: center !important;
+  gap: 2px;
+  border-radius: 999px;
+  background: var(--float-glass-pill);
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke);
+}
+
+.gamepadtabbedpage_TabRowTabs {
+  flex: 0 1 auto !important;
+  width: auto;
+}
+
+.gamepadtabbedpage_FixCenterAlignScroll {
+  height: auto;
+  padding: 3px 4px !important;
+}
+
+.gamepadtabbedpage_TabRowSpacer {
+  display: none;
+}
+
+/* Steam fades the tab row's edges, which clips the first and last pills. */
+.gamepadtabbedpage_TabsRowScroll {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.gamepadtabbedpage_Glyphs {
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.gamepadtabbedpage_Glyphs img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.75;
+}
+
+/* Let the last grid row scroll clear of the hint pill */
+.cssgrid_Container {
+  padding-bottom: 56px !important;
+}
+
+/* ---------- Home tabs (What's New, Friends, Recommended) ---------- */
+
+/* The tabs start just below the screen, so the home screen shows only the games until you scroll down. Steam pulls
+   them up over the bottom of the games section with a negative margin; the section ends about 2px above the screen's
+   bottom edge at any interface scale, so a small positive margin clears it. */
+.gamepadhome_TabbedContent {
+  margin-top: 8px !important;
+}
+
+/* Selection: an outline on the focused card itself, like the covers on the home row. An outline follows its own
+   element's corners, so it matches every card whatever its size or radius. Steam's overlay ring can't: it's a separate
+   element that knows the card's position but not its corners. Buttons and tabs have their own white fill. */
+.gamepadhome_TabbedContent .focusring_FocusRing {
+  display: none !important;
+}
+
+.gamepadhome_TabbedContent .gpfocus:not(:where(.gamepadtabbedpage_Tab, .DialogButton)) {
+  outline: 2px solid var(--float-focus) !important;
+  outline-offset: -2px !important;
+}
+
+/* Cards: the border is a layer on top of the card's contents, just inside its edge. Outside the edge, the rows and
+   panels holding the cards clip it; as a plain inset outline, the card's art paints over it. Friend activity cards and
+   calendar games pass focus to a square box that isn't the visible card, so the card itself (for activity, the box
+   around it; for the calendar, the rounded art inside it) draws the layer. */
+.gamepadhome_TabbedContent :is(.B1DxY2t9t_oR_fXgqs7Dj, .recentlycompleted_RecentlyCompletedItem, .gamecapsule_GameCapsule, .gamepadhomefriends_FavoriteFriend, .gamepadhomefriends_GoToFriends, .tqaXEuWN2wV5_8lmSkMng, ._3PAP1PfUymQrLEveRsxQxP, .marketingmessages_MarketingMessage).gpfocus,
+.gamepadhome_TabbedContent .appactivityday_StoreGameCapsule.gpfocus,
+.gamepadhome_TabbedContent .appactivityday_EventHeadline.gpfocus,
+.gamepadhome_TabbedContent .gpfocus:has(> ._2A83UfRXWSLbHFYfDcch9W) {
+  outline: none !important;
+}
+
+.gamepadhome_TabbedContent :is(.B1DxY2t9t_oR_fXgqs7Dj, .recentlycompleted_RecentlyCompletedItem, .gamecapsule_GameCapsule, .gamepadhomefriends_FavoriteFriend, .gamepadhomefriends_GoToFriends, .tqaXEuWN2wV5_8lmSkMng, ._3PAP1PfUymQrLEveRsxQxP, .marketingmessages_MarketingMessage).gpfocus,
+.gamepadhome_TabbedContent .appactivityday_Event:has(.appactivityday_StoreGameCapsule.gpfocus, .appactivityday_EventHeadline.gpfocus) {
+  position: relative;
+}
+
+.gamepadhome_TabbedContent :is(.B1DxY2t9t_oR_fXgqs7Dj, .recentlycompleted_RecentlyCompletedItem, .gamecapsule_GameCapsule, .gamepadhomefriends_FavoriteFriend, .gamepadhomefriends_GoToFriends, .tqaXEuWN2wV5_8lmSkMng, ._3PAP1PfUymQrLEveRsxQxP, .marketingmessages_MarketingMessage).gpfocus::after,
+.gamepadhome_TabbedContent .appactivityday_Event:has(.appactivityday_StoreGameCapsule.gpfocus, .appactivityday_EventHeadline.gpfocus)::after,
+.gamepadhome_TabbedContent .gpfocus > ._2A83UfRXWSLbHFYfDcch9W::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 100;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 2px var(--float-focus);
+  pointer-events: none;
+}
+
+/* Cards get the covers' rounding and a glass finish in place of Steam's navy and blue fills: a translucent white sheen
+   and a hairline edge. No backdrop blur: these sit on the flat base, so it would cost a lot and show nothing.
+   Classes starting with a hash have no readable name in CSS Loader's translations; if a Steam update renames one, that
+   card just falls back to Steam's own look. */
+:root {
+  --float-home-card: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  --float-home-card-today: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  --float-home-inner: rgba(255, 255, 255, 0.04);
+}
+
+/* Cards: news (first), recently updated, game capsules, favourite friends and the friends list link, friend activity,
+   calendar days, discovery queue. */
+.gamepadhome_TabbedContent .B1DxY2t9t_oR_fXgqs7Dj,
+.gamepadhome_TabbedContent .recentlycompleted_RecentlyCompletedItem,
+.gamepadhome_TabbedContent .gamecapsule_GameCapsule,
+.gamepadhome_TabbedContent .gamepadhomefriends_FavoriteFriend,
+.gamepadhome_TabbedContent .gamepadhomefriends_GoToFriends,
+.gamepadhome_TabbedContent .appactivityday_Event,
+.gamepadhome_TabbedContent .tqaXEuWN2wV5_8lmSkMng,
+.gamepadhome_TabbedContent ._3PAP1PfUymQrLEveRsxQxP {
+  border-radius: var(--float-radius-capsule) !important;
+  overflow: hidden;
+  background: var(--float-home-card) !important;
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+}
+
+/* Today stays easy to find in the calendar, now by brightness rather than Steam's pink. */
+.gamepadhome_TabbedContent .tqaXEuWN2wV5_8lmSkMng._8UPO4fZBxxerbhcRBpAcc {
+  background: var(--float-home-card-today) !important;
+}
+
+.gamepadhome_TabbedContent .marketingmessages_MarketingMessage {
+  border-radius: var(--float-radius-capsule) !important;
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+}
+
+/* Sections inside the cards: Steam's fills would stack on the card's glass. */
+.gamepadhome_TabbedContent ._3FDPeEvssr8wktS3dWB-RO,
+.gamepadhome_TabbedContent .gamecapsule_BottomBar,
+.gamepadhome_TabbedContent .appactivityday_EventHeadline,
+.gamepadhome_TabbedContent .appactivityday_EventBody {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.gamepadhome_TabbedContent .recentlycompleted_BottomSection,
+.gamepadhome_TabbedContent .appactivityday_EventHeadline {
+  background: var(--float-home-inner) !important;
+}
+
+/* The discovery queue's blue and purple backdrop becomes a dark fade from the text into the art. */
+.gamepadhome_TabbedContent ._1DaxYFphX9KPH-YWeuNTvO {
+  background: transparent !important;
+}
+
+.gamepadhome_TabbedContent .discoveryqueuewidget_WidgetHeaderCtn {
+  background: linear-gradient(77deg, rgba(14, 14, 16, 0.85) 0%, rgba(14, 14, 16, 0.55) 45%, rgba(14, 14, 16, 0) 75%) !important;
+}
+
+/* Art inside the cards. */
+.gamepadhome_TabbedContent .recentlycompleted_GameIcon,
+.gamepadhome_TabbedContent .appactivityday_GameIcon,
+.gamepadhome_TabbedContent .appactivityday_HeaderImage,
+.gamepadhome_TabbedContent .appactivityday_GameCarouselItemHeader,
+.gamepadhome_TabbedContent ._2A83UfRXWSLbHFYfDcch9W {
+  border-radius: var(--float-radius-item) !important;
+  overflow: hidden;
+}
+
+.gamepadhome_TabbedContent .recentlycompleted_GameIcon,
+.gamepadhome_TabbedContent .appactivityday_GameIcon {
+  border-radius: 6px !important;
+}
+
+/* Small labels: "In library" and "New" lose Steam's blue. Discounts keep their green, which carries meaning. */
+.gamepadhome_TabbedContent .gamecapsule_InLibrary {
+  border-radius: 0 0 6px 0;
+  background: var(--float-glass-strong) !important;
+  color: var(--float-fg) !important;
+}
+
+.gamepadhome_TabbedContent .gamecapsule_InLibrary svg {
+  fill: currentColor;
+  color: var(--float-fg);
+}
+
+.gamepadhome_TabbedContent .kT9bBl6aBZQ-0xiRlMWzc {
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18) !important;
+}
+
+.gamepadhome_TabbedContent .StoreSaleDiscountBox {
+  border-radius: 4px !important;
+}
+
+/* ---------- Downloads ---------- */
+
+/* Float's base and glass in place of Steam's navy gradient, flat rows and blue accents. Classes starting with a hash
+   have no readable name in CSS Loader's translations; if a Steam update renames one, that piece keeps Steam's look. */
+.downloads_DownloadsPage {
+  background: var(--float-base) !important;
+}
+
+/* Top panel: holds the graph and game art while downloading. Its glass card is a layer behind the contents, so the
+   graph's layout stays Steam's own. */
+.downloads_DownloadsPage .downloads_Section.downloads_Active {
+  background: transparent !important;
+  isolation: isolate;
+}
+
+.downloads_DownloadsPage .downloads_Section.downloads_Active::before {
+  content: "";
+  position: absolute;
+  inset: 52px 12px 8px;
+  z-index: -1;
+  border-radius: var(--float-radius-card);
+  background: var(--float-home-card);
+  box-shadow: inset 0 0 0 1px var(--float-stroke);
+  pointer-events: none;
+}
+
+.downloads_DownloadsPage ._373v1eWNyaPKhgnea9FZSt {
+  box-shadow: none !important;
+}
+
+.downloads_DownloadsPage .downloads_TopBar {
+  background: transparent !important;
+}
+
+/* "Managing downloads for this device": a glass pill sitting inside the card's corner. */
+.downloads_DownloadsPage ._32eLZRkdi_FgZPoefB5zMS {
+  transform: translate(14px, -14px);
+  border-radius: 999px !important;
+  background: var(--float-glass-pill) !important;
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke);
+}
+
+.downloads_DownloadsPage ._1bZTWHCV-uVaS5pEQLn-0Z {
+  color: var(--float-fg) !important;
+  font-weight: 700;
+}
+
+.downloads_DownloadsPage .downloads_Rule {
+  background: var(--float-hairline) !important;
+}
+
+/* Rows become cards with the covers' rounding. */
+.downloads_DownloadsPage .downloads_SectionItemWrapper {
+  margin-bottom: 8px;
+}
+
+.downloads_DownloadsPage .downloads_SectionItem {
+  border-radius: var(--float-radius-capsule) !important;
+  background: var(--float-home-card) !important;
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+  animation: none !important;
+}
+
+/* Selection: the same white border as the home page's cards. */
+.downloads_DownloadsPage .downloads_SectionItemWrapper.gpfocus .downloads_SectionItem {
+  background: var(--float-home-card-today) !important;
+  box-shadow: inset 0 0 0 2px var(--float-focus) !important;
+}
+
+.downloads_DownloadsPage .downloads_PatchNotes,
+.downloads_DownloadsPage .downloads_PatchNotes .downloads_Text {
+  color: var(--float-fg-soft) !important;
+}
+
+/* ---------- Settings ---------- */
+
+/* Settings (and game properties, the same screen) replace the page entirely, so there's no art behind them to float
+   over; so do the controller layout screens (the summary, the overview with the deck drawing, and the settings pages)
+   and the SteamGridDB plugin's artwork page, all painted Steam's navy or black.
+   Instead, a barely-there grey smoke: two layers of large, soft fractal noise (mapped to white, with the low
+   end cut off so the clouds have gaps), each drifting and slowly growing or shrinking on its own cycle, so as they
+   pass over each other the clouds seem to change shape. The noise is generated once, as a seamless tile, and the
+   layers are only moved, which costs the GPU next to nothing. Light this faint spans only a few brightness levels;
+   a fine static grain on the dialog breaks up any banding. Steam's own backgrounds (navy for the dialog, grey for
+   its content area) are replaced. */
+.gamepadpagedsettings_PagedSettingsDialog,
+.controllerconfiguratormapping_PagedSettingsDialog,
+.controllerconfiguratorsummary_FlexColumn,
+.gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain),
+#sgdb-wrap {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") !important;
+}
+
+/* SteamGridDB's page starts below the header strip (a top margin); it becomes padding instead, so the page's box,
+   with the smoke and grain on it, covers the strip too, while its content stays where it was. */
+#sgdb-wrap {
+  box-sizing: border-box;
+  height: 100% !important;
+  margin-top: 0 !important;
+  padding-top: var(--basicui-header-height, 40px);
+}
+
+/* The controller layout screen stops between the header and the footer (the page's padding), over solid bars; that
+   spacing moves inside its scroll area instead, so its content starts where it did but scrolls under the header and
+   the hint pill, with scroll padding to keep a focused row clear of both. Its navy panels go clear. */
+.gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain) {
+  padding-block: 0 !important;
+}
+
+.controllerconfigurator_ControllerConfiguratorMain {
+  padding-block: var(--basicui-header-height, 40px) 40px;
+  scroll-padding-block: 60px !important;
+  background: transparent !important;
+}
+
+.controllerconfigurator_TopSection,
+.controllerconfigurator_BottomSection {
+  background: transparent !important;
+}
+
+/* The controller configurator's settings pages (a trackpad's or a stick's settings, and the like) copy the settings
+   layout under their own names, and get the same look as settings throughout this file. The page fills the screen
+   instead of starting under the header, and its right column scrolls under the header and the hint pill. */
+.controllerconfiguratormapping_PagedSettingsDialog {
+  margin-top: 0 !important;
+  height: 100% !important;
+}
+
+/* The overview with the deck drawing: its full-screen column carries the smoke (it's absolutely positioned, and stays
+   so), its navy panel goes clear, and the focused control gets Float's white instead of Steam's blue-grey, its glyph
+   inverted to stay visible on it. */
+.gamepadpage_GamepadPage > .controllerconfiguratorsummary_FlexColumn {
+  position: absolute;
+}
+
+.controllerconfiguratorsummary_ControllerConfiguratorSummary {
+  background: transparent !important;
+}
+
+.controllerconfiguratorsummary_ControllerConfiguratorSummary .controllerconfiguratorsummary_DirectAccessButton {
+  border-radius: 8px;
+}
+
+.controllerconfiguratorsummary_ControllerConfiguratorSummary .controllerconfiguratorsummary_DirectAccessButton:is(:focus, .gpfocus) {
+  border-color: transparent !important;
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+/* The groups beside the drawing: Steam caps them at 90px and fades their last few pixels, which a group just under
+   the cap (a trackpad's) already reaches, so its focus fill faded out at the bottom. The cap is higher, and the fade
+   only begins past it. They also keep clear of the drawing (and the screen's edge) when highlighted. */
+.controllerconfiguratorsummary_ControllerConfiguratorSummary :is(.controllerconfiguratorsummary_Left, .controllerconfiguratorsummary_Right) .controllerconfiguratorsummary_ControlContainer > .controllerconfiguratorsummary_DirectAccessButton {
+  max-height: 120px !important;
+  -webkit-mask-image: linear-gradient(#000 118px, transparent 128px) !important;
+  mask-image: linear-gradient(#000 118px, transparent 128px) !important;
+  margin-inline: 12px;
+}
+
+/* Its title (the layout's name): a page title below the header instead of a small caption at the screen's top edge.
+   It floats there, and the space it took stays (the panel's top padding), so the rest of the page keeps its place. */
+.controllerconfiguratorsummary_FlexColumn > .controllerconfiguratorsummary_ControllerConfiguratorSummary {
+  padding-top: 24px !important;
+}
+
+.controllerconfiguratorsummary_FlexColumn > .controllerconfiguratorsummary_ControllerConfiguratorSummary > .controllerconfiguratorsummary_TitleLabel {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  right: 0;
+  margin: 0 !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.2px;
+  color: var(--float-fg) !important;
+}
+
+/* Its labels set their own light colour; on the white they turn dark with the row. */
+.controllerconfiguratorsummary_ControllerConfiguratorSummary .controllerconfiguratorsummary_DirectAccessButton:is(:focus, .gpfocus) * {
+  color: var(--float-focus-fg) !important;
+}
+
+.controllerconfiguratorsummary_DirectAccessButton:is(:focus, .gpfocus) img[src*="glyphs"] {
+  filter: invert(1);
+}
+
+/* Steam's drawing of the Deck there fills its body with the same navy; Float's copy (images/) is just its lines. */
+.controller_steamcontroller_neptune .controllerconfiguratorsummary_BackgroundController,
+.controller_steamos_handheld .controllerconfiguratorsummary_BackgroundController {
+  background-image: url("/themes_custom/Float%20-%20Fabian/images/controller_config_controller_steam_deck.svg?v=96f8a20b") !important;
+}
+
+.controllerconfiguratormapping_RightColumnContainer {
+  box-sizing: border-box;
+  height: 100% !important;
+  padding-block: var(--basicui-header-height, 40px) 40px;
+  scroll-padding-block: 60px;
+}
+
+/* SteamGridDB's loading screen covers the page in navy while artwork loads; see-through instead, so its spinner
+   sits over the same smoke. */
+#sgdb-wrap .spinnyboi {
+  background: transparent !important;
+}
+
+/* Its logo there at half size. Scaling keeps it where it was, centred. */
+#sgdb-wrap .spinnyboi > img {
+  transform: scale(0.375) !important;
+}
+
+#sgdb-wrap .spinnyboi.loaded > img {
+  transform: scale(0.3) !important;
+}
+
+/* The size slider beside the Filter buttons: no notches under it, and the same 40px height as the buttons. Its top
+   margin (a card row's gap) is dropped for good, not only on focus, so focusing it no longer moves it. */
+#sgdb-wrap .sgdb-asset-toolbar .size-slider {
+  margin-top: 0 !important;
+  padding-block: 8px !important;
+}
+
+#sgdb-wrap .sgdb-asset-toolbar .size-slider .gamepadslider_SliderNotchContainer {
+  display: none;
+}
+
+/* Artwork tiles: rounded like the focus ring, with the artwork clipped to the same corners. A focused tile is raised
+   just above its neighbours' artwork (z-index 1, or 2 while downloading), so its tags slide out over the next tile,
+   but stays below the ring (10000), which the plugin's own raise put it above. On this page the
+   ring sits on the artwork's edge instead of around it, overlapping it by a hair so no seam shows the tags beneath. */
+#sgdb-wrap .focusring_FocusRing {
+  outline-offset: -1px !important;
+}
+
+#sgdb-wrap #images-container .image-wrap,
+#sgdb-wrap #images-container .image-wrap > .thumb,
+#sgdb-wrap #images-container .image-wrap > .dload-overlay {
+  border-radius: 12px;
+}
+
+#sgdb-wrap #images-container .image-wrap > .thumb {
+  overflow: hidden;
+}
+
+#sgdb-wrap #images-container .image-wrap.gpfocus,
+#sgdb-wrap #images-container .image-wrap:hover {
+  z-index: 3 !important;
+}
+
+/* A tile's tags rest hidden under it and slide out to its side on focus. They start below the rounded corner, where
+   the tile's edge is straight, and rest 4px in from its edge, so the edge's antialiasing never shows a sliver of
+   them; the plugin left them peeking out at the corner. Once out, they end where the plugin puts them, 1px under
+   the tile's edge. */
+#sgdb-wrap #images-container .image-wrap .chips {
+  top: 12px !important;
+  right: 4px !important;
+}
+
+#sgdb-wrap #images-container .image-wrap .chips.chips-left {
+  right: auto !important;
+  left: 4px !important;
+}
+
+#sgdb-wrap #images-container .image-wrap:is(.gpfocus, :hover) .chips > .chip {
+  transform: translateX(calc(100% + 3px)) !important;
+}
+
+#sgdb-wrap #images-container .image-wrap:is(.gpfocus, :hover) .chips.chips-left > .chip {
+  transform: translateX(calc(-100% - 3px)) !important;
+}
+
+/* A tag's button glyph (Float's own, swapped in with content) is sized only by a max height, which leaves it out of
+   the tag's width: the label and glyph overflowed the tag. A set size counts it. */
+#sgdb-wrap #images-container .chip > img {
+  width: 1.85em;
+  height: 1.85em;
+}
+
+/* While a tile's artwork loads, the plugin fills the tile with Steam's default game image (blue); a faint neutral
+   fill instead. Once it's loaded, no fill at all: the artwork's thumbnail can be a fraction of a pixel shorter than
+   its tile, and the fill showed through as a line along the bottom. */
+#sgdb-wrap #images-container .image-wrap {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+#sgdb-wrap #images-container .image-wrap:has(> .thumb > [data-loaded="true"]:not(.blur-bg)) {
+  background: none !important;
+}
+
+/* The artist's name under a tile: in from the rounded corner and a little clear of the focus ring. */
+#sgdb-wrap #images-container .asset-box-wrap .author {
+  padding: 6px 0 0 6px !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog .DialogContentTransition {
+  background: transparent !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog::before,
+.gamepadpagedsettings_PagedSettingsDialog::after,
+.controllerconfiguratormapping_PagedSettingsDialog::before,
+.controllerconfiguratormapping_PagedSettingsDialog::after,
+.controllerconfiguratorsummary_FlexColumn::before,
+.controllerconfiguratorsummary_FlexColumn::after,
+.gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::before,
+.gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::after,
+#sgdb-wrap::before,
+#sgdb-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog::before,
+.controllerconfiguratormapping_PagedSettingsDialog::before,
+.controllerconfiguratorsummary_FlexColumn::before,
+.gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::before,
+#sgdb-wrap::before {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.2 0 0 0 -0.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E") 0 0 / 900px 900px repeat;
+  opacity: 0.036;
+  animation: float-settings-smoke-a 38s ease-in-out infinite alternate;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog::after,
+.controllerconfiguratormapping_PagedSettingsDialog::after,
+.controllerconfiguratorsummary_FlexColumn::after,
+.gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::after,
+#sgdb-wrap::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0021' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.0 0 0 0 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E") 0 0 / 1100px 1100px repeat;
+  opacity: 0.028;
+  animation: float-settings-smoke-b 47s ease-in-out infinite alternate;
+}
+
+@keyframes float-settings-smoke-a {
+  from {
+    transform: translate(-6%, 3%) scale(1);
+  }
+  to {
+    transform: translate(5%, -4%) scale(1.12);
+  }
+}
+
+@keyframes float-settings-smoke-b {
+  from {
+    transform: translate(6%, -2%) scale(1.1);
+  }
+  to {
+    transform: translate(-4%, 5%) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gamepadpagedsettings_PagedSettingsDialog::before,
+  .gamepadpagedsettings_PagedSettingsDialog::after,
+  .controllerconfiguratormapping_PagedSettingsDialog::before,
+  .controllerconfiguratormapping_PagedSettingsDialog::after,
+  .controllerconfiguratorsummary_FlexColumn::before,
+  .controllerconfiguratorsummary_FlexColumn::after,
+  .gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::before,
+  .gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::after,
+  #sgdb-wrap::before,
+  #sgdb-wrap::after {
+    animation: none;
+  }
+}
+
+/* Settings rows, and every row in the same newer card layout elsewhere (controller screens, plugin pages). Steam now
+   lays them out as separate grey cards with 6px gaps between them; Float keeps one list on the page: no card and no gap, a hairline under each row,
+   the rows' content lined up with the section headings, and the focused row's highlight (controls.css) reaching past
+   the content on both sides. The negative margin cancels Steam's inner padding (20px on screens 1500px and wider).
+   Without the gaps, a focused row also no longer moves: Float's focus style already clears the gap above it. */
+.gamepadpagedsettings_PagedSettingsDialog_PageContent .gamepaddialog_Field.gamepaddialog_Field,
+.gamepaddialog_Field.gamepaddialog_Field._2CCdODv0vfzOMrEBUzZwfI:not(.size-slider) {
+  margin-top: 0 !important;
+  margin-inline: -12px;
+  background: transparent;
+}
+
+@media (min-width: 1500px) {
+  .gamepadpagedsettings_PagedSettingsDialog_PageContent .gamepaddialog_Field.gamepaddialog_Field,
+  .gamepaddialog_Field.gamepaddialog_Field._2CCdODv0vfzOMrEBUzZwfI:not(.size-slider) {
+    margin-inline: -20px;
+  }
+}
+
+.gamepadpagedsettings_PagedSettingsDialog_PageContent .gamepaddialog_Field.gamepaddialog_Field::after,
+.gamepaddialog_Field.gamepaddialog_Field._2CCdODv0vfzOMrEBUzZwfI:not(.size-slider)::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -0.5px;
+  height: 1px;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog_PageListColumn,
+.controllerconfiguratormapping_PageListColumn {
+  flex: 0 0 226px !important;
+  min-width: 226px !important;
+  max-width: 226px !important;
+  margin: 50px 0 50px 12px;
+  height: auto;
+  padding-bottom: 0 !important;
+  border-radius: var(--float-radius-card);
+  background: var(--float-glass) !important;
+  box-shadow: inset 0 0 0 1px var(--float-stroke);
+  overflow: hidden;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog_PageList,
+.controllerconfiguratormapping_PageList {
+  padding: 8px 0 !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog_PageListItem,
+.controllerconfiguratormapping_PageListItem {
+  margin: 1px 8px;
+  padding: 8px 12px !important;
+  /* Steam marks the current tab with a blue left border; the fill below marks it instead. */
+  border: none !important;
+  border-radius: 10px;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  color: var(--float-fg-soft) !important;
+  background: transparent !important;
+  transform: none !important;
+  clip-path: none !important;
+  animation: none !important;
+}
+
+.gamepadpagedsettings_PageListItem_Icon {
+  margin-right: 12px !important;
+}
+
+.gamepadpagedsettings_PageListItem_Icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.gamepadpagedsettings_PageListItem_Icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog_PageListItem.gamepadpagedsettings_Active,
+.controllerconfiguratormapping_PageListItem.controllerconfiguratormapping_Active {
+  background: var(--float-active) !important;
+  color: var(--float-fg) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog_PageListItem.gpfocus,
+.gamepadpagedsettings_PagedSettingsDialog_PageListItem:focus,
+.controllerconfiguratormapping_PageListItem.gpfocus,
+.controllerconfiguratormapping_PageListItem:focus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+.gamepadpagedsettings_Separator {
+  margin: 6px 20px !important;
+  background: var(--float-hairline) !important;
+}
+
+.gamepadpagedsettings_PagedSettingsDialog_PageContent .DialogHeader {
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.3px;
+}
+
+.SettingsDialogSubHeader {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--float-fg-dim) !important;
+}
+
+.DialogBody .gamepaddialog_Field {
+  --field-negative-horizontal-margin: 12px !important;
+}
+
+/* ---------- Backdrop behind Quick Access and the main menu ---------- */
+
+.backgroundglass_BackgroundGlass.backgroundglass_Blur.backgroundglass_DrawBackground {
+  background: rgba(14, 14, 16, 0.32);
+  backdrop-filter: blur(26px) saturate(1.25);
+}
+
+/* ---------- Dialogs ---------- */
+
+.gamepadui_GamepadDialogOverlay .ModalOverlayBackground {
+  background: rgba(8, 8, 10, 0.55) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+.gamepaddialog_ModalPosition > .gamepaddialog_GamepadDialogContent.DialogContent {
+  border: none !important;
+  border-radius: 22px !important;
+  background: var(--float-glass-strong) !important;
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke), 0 24px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+.gamepaddialog_ModalPosition .DialogHeader {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.3px;
+}
+
+.gamepaddialog_ModalPosition .DialogBodyText {
+  color: var(--float-fg-soft) !important;
+}
+
+/* ---------- Context menus ---------- */
+
+.gamepadcontextmenu_BasicContextMenuHeader {
+  transform: translateY(-10px);
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  background: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Centered menus (dropdowns, options) get the space between the header and the footer, less a little room at each
+   end: Float's hint pill floats 8px up into that space, and a long menu ran under it. The menu's own padding counts
+   toward its height limit, so its rounded ends aren't clipped either. */
+.BasicUIContextMenu {
+  box-sizing: border-box;
+  padding: 12px 0 20px;
+}
+
+.gamepadcontextmenu_contextMenuContents {
+  box-sizing: border-box !important;
+  padding: 6px !important;
+  border-radius: 18px !important;
+  background: var(--float-glass-strong) !important;
+  backdrop-filter: blur(var(--float-blur));
+  /* Inset stroke only: the container clips overflow, so an outer shadow shows as a square behind the corners. */
+  box-shadow: inset 0 0 0 1px var(--float-stroke) !important;
+  filter: none !important;
+}
+
+.gamepadcontextmenu_contextMenuItem {
+  min-width: 260px !important;
+  margin: 1px 0 !important;
+  padding: 11px 14px !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  color: var(--float-fg-soft) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  animation: none !important;
+}
+
+.gamepadcontextmenu_contextMenuItem.library_ContextMenuAction {
+  background: transparent !important;
+  color: var(--float-fg) !important;
+  font-weight: 750 !important;
+}
+
+.gamepadcontextmenu_contextMenuItem.gamepadcontextmenu_Focused,
+.gamepadcontextmenu_contextMenuItem.gpfocus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+/* The item whose submenu is open: marked, but not focused. */
+.gamepadcontextmenu_contextMenuItem.gamepadcontextmenu_active:not(.gamepadcontextmenu_Focused):not(.gpfocus) {
+  background: var(--float-active) !important;
+  color: var(--float-fg) !important;
+}
+
+/* A submenu floats as its own card beside its parent. */
+.gamepadcontextmenu_contextMenuContents + .gamepadcontextmenu_contextMenuContents {
+  margin-left: 10px !important;
+}
+
+.gamepadcontextmenu_contextMenuItem.gamepadcontextmenu_Destructive.gamepadcontextmenu_Focused,
+.gamepadcontextmenu_contextMenuItem.gamepadcontextmenu_Destructive.gpfocus {
+  background: #ff453a !important;
+  color: #ffffff !important;
+}
+
+.gamepadcontextmenu_ContextMenuSeparator {
+  height: 1px !important;
+  min-height: 1px !important;
+  margin: 4px 10px !important;
+  background: var(--float-hairline) !important;
+}
+
+/* ---------- Focus ring overlay (lists, cards) ---------- */
+
+.focusring_FocusRing {
+  border-radius: 12px;
+  outline-offset: 3px !important;
+}
+
+/* ---------- Game page below the play row ---------- */
+
+/* Once scrolled, the sticky tab row sits over the art; give it (and the strip above it, up to the screen
+   edge) a solid base that fades out downwards. */
+.basicappdetailssectionstyler_AppDetailsContainer .gamepadtabbedpage_TabHeaderRowWrapper::before {
+  top: calc(-1 * var(--basicui-header-height, 40px)) !important;
+  background: linear-gradient(to bottom, var(--float-base) 0%, var(--float-base) 70%, rgba(14, 14, 16, 0) 100%) !important;
+  opacity: 1;
+}
+
+.BasicUI .appdetailssection_AppDetailsSectionContainer {
+  border-radius: 16px !important;
+}
+
+.BasicUI .appdetailssection_AppDetailsSectionContainer.appdetailssection_RightColumnSection {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.appactivityday_PartnerEvent {
+  border: none !important;
+  border-image: none !important;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+._b5AGtz9j_PartnerEventMediumImage_Container,
+._b5AGtz9j_PartnerEventMediumImage_Container:hover {
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.appactivityday_PartnerEvent img {
+  border-radius: 10px;
+}
+
+._b5AGtz9j_PartnerEventMediumImage_Title {
+  font-weight: 700 !important;
+  letter-spacing: -0.2px;
+  color: var(--float-fg) !important;
+}
+
+._b5AGtz9j_PartnerEventMediumImage_Summary {
+  color: var(--float-fg-dim) !important;
+}
+
+.appactivityday_AppActivityDate {
+  font-size: 13px !important;
+  font-weight: 700;
+  letter-spacing: 0 !important;
+  color: var(--float-fg-dim) !important;
+}
+
+.appdetailssectionheader_LabelText,
+.appdetailssection_AppDetailsSection h2 {
+  font-weight: 800 !important;
+  letter-spacing: -0.3px !important;
+}
+
+/* Post box */
+.BasicUI .posttextentry_PostTextEntry .posttextentry_PostTextEntryArea {
+  border-radius: 12px !important;
+  background-color: rgba(255, 255, 255, 0.07) !important;
+  font-style: normal;
+}
+
+.BasicUI .posttextentry_PostTextEntry .posttextentry_PostTextEntryArea:focus {
+  background-color: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+.posttextentry_PostTextEntryArea::placeholder {
+  font-style: normal !important;
+}
+
+.BasicUI .posttextentry_PostTextEntry .posttextentry_Controls .posttextentry_PostButton {
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--float-fg) !important;
+}
+
+.BasicUI .posttextentry_PostTextEntry .posttextentry_Controls .posttextentry_PostButton.gpfocus,
+.BasicUI .posttextentry_PostTextEntry .posttextentry_Controls .posttextentry_PostButton:focus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+/* "Scroll to top" (touch only): a small glass pill above the hint pill instead of a blue tab behind it. */
+.smartscrollcontainer_ScrollToTopButton {
+  height: auto !important;
+  padding: 0 !important;
+  bottom: 58px;
+  position: relative;
+}
+
+.smartscrollcontainer_ScrollToTopButtonPosition {
+  bottom: 58px !important;
+}
+
+.smartscrollcontainer_ScrollToTopButton div {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--float-glass-pill);
+  backdrop-filter: blur(var(--float-blur));
+  box-shadow: inset 0 0 0 1px var(--float-stroke);
+  color: var(--float-fg-soft);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+/* ---------- Search ---------- */
+
+.gamepadsearch_GamepadSearch {
+  background: var(--float-base) !important;
+}
+
+.gamepadsearch_ResultTemplateImage,
+.gamepadsearch_ResultTemplateImage .libraryassetimage_Container,
+.gamepadsearch_ResultTemplateImage img {
+  border-radius: 10px !important;
+}
+
+.gamepadsearch_ResultTemplateImage {
+  overflow: hidden;
+}
+
+.gamepadsearch_ResultTemplate.gpfocuswithin .gamepadsearch_ResultTemplateImage {
+  outline: 2px solid var(--float-focus);
+  transform: scale(1.03);
+}
+
+.gamepadsearch_Description {
+  letter-spacing: 0 !important;
+}
+
+/* ---------- Friends ---------- */
+
+.friendlist.GamepadMode,
+.multiChatDialog.GamepadMode,
+.FriendsListSteamDeckTopSection {
+  background: transparent !important;
+}
+
+#GamepadUI_Full_Root .friendlist.GamepadMode {
+  border-right: 1px solid var(--float-hairline) !important;
+}
+
+.emptyChatDialogs {
+  letter-spacing: 0 !important;
+  color: var(--float-fg-dim) !important;
+}
+
+/* ---------- Settings: content fades out under the floating pills ---------- */
+
+.gamepadpagedsettings_PagedSettingsDialog_PageContent,
+.controllerconfiguratormapping_RightColumnContainer {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 calc(100% - 64px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 calc(100% - 64px), transparent 100%);
+}
+
+.gamepadpagedsettings_PagedSettingsDialog_PageContent a {
+  color: var(--float-fg) !important;
+  text-decoration: underline;
+  text-decoration-color: var(--float-fg-dim);
+}
+
+/* Art that hasn't loaded yet: a faint neutral tile instead of Steam's navy. */
+.libraryassetimage_GreyBackground {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ---------- Game properties ---------- */
+
+/* Rows reach 12px past the scrolling area on each side (their focus fill and rounded corners live there), but
+   this page scrolls at that area, which would cut them off square. Widen it by the same amount. */
+.appproperties_AppProperties .DialogBody {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  margin-left: -12px;
+  margin-right: -12px;
+}
+
+/* Some rows open with a small gap above them; focusing a row resets its top margin (to undo Steam's own focus
+   offset), which would make these jump. Keep their gap. */
+.appproperties_AppProperties .DialogBody .appproperties_TopGapSmall.gamepaddialog_Field {
+  margin-top: 5px !important;
+}
+
+.appproperties_AppProperties .DialogBody .appproperties_TopGap.gamepaddialog_Field {
+  margin-top: 10px !important;
+}
+
+/* Rows here get their own focus fill; Steam's separate focus ring (drawn at the top of the page, outside the
+   properties panel) would add a second outline around them. */
+.gamepadui_BasicHome:has(.appproperties_AppProperties) > .focusring_FocusRingRoot .focusring_FocusRing {
+  display: none !important;
+}
+
+.appproperties_AppProperties .DialogBody .appproperties_BlueHighlight {
+  color: var(--float-fg) !important;
+  font-weight: 650 !important;
+}
+
+/* Checkbox rows: clear like the other rows, the focused one filled. */
+.appproperties_AppProperties .appproperties_Checkbox {
+  padding: 9px 12px !important;
+  background: transparent !important;
+  transition: background-color 0.12s ease-out;
+}
+
+.appproperties_AppProperties .appproperties_Checkbox.gpfocus,
+.appproperties_AppProperties .appproperties_Checkbox:focus {
+  background: var(--float-active) !important;
+  box-shadow: none !important;
+}
+
+/* Betas: a plain list. No header band or zebra stripes; hairlines between rows, the chosen version marked by its
+   radio and a faint fill, the focused row a stronger fill. */
+.appproperties_AppProperties .DialogBody ._zzZzSSlx_BetaHeaderRow {
+  background: transparent !important;
+  border-bottom: 1px solid var(--float-hairline);
+  color: var(--float-fg-dim) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.appproperties_AppProperties .DialogBody ._zzZzSSlx_BetasTable ._zzZzSSlx_BetaRow {
+  margin: 2px 0;
+  border-radius: 12px;
+  background: transparent !important;
+  transition: background-color 0.12s ease-out;
+}
+
+.appproperties_AppProperties .DialogBody ._zzZzSSlx_BetasTable ._zzZzSSlx_BetaRow.appproperties_Selected {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.appproperties_AppProperties .DialogBody ._zzZzSSlx_BetasTable ._zzZzSSlx_BetaRow.gpfocuswithin {
+  background: var(--float-active) !important;
+}
+
+.appproperties_AppProperties .DialogBody ._zzZzSSlx_BetaRadioButton,
+.appproperties_AppProperties .DialogBody ._zzZzSSlx_BetasTable ._zzZzSSlx_BetaRow.appproperties_Selected ._zzZzSSlx_BetaRadioButton {
+  width: 40px !important;
+  border-left: none !important;
+}
+
+.appproperties_AppProperties ._zzZzSSlx_BetaRadioButton input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+.appproperties_AppProperties ._zzZzSSlx_BetaRadioButton input[type="radio"]:checked {
+  box-shadow: inset 0 0 0 2px var(--float-focus), inset 0 0 0 5px rgba(20, 20, 24, 1), inset 0 0 0 8px var(--float-focus);
+}
+
+/* Controller: the Steam Input status box. */
+.appproperties_AppProperties .DialogBody .appproperties_SteamInputStatusGrid {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.appproperties_AppProperties .DialogBody .appproperties_SteamInputStatusGrid .appproperties_Controller .appproperties_ControllerPip.appproperties_ControllerConnected {
+  background: var(--float-fg) !important;
+  filter: none !important;
+}

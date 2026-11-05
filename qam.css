@@ -1,0 +1,299 @@
+/* Float: Quick Access menu. Its window is wider than the screen shows: only the leftmost 348px are visible. */
+
+html,
+body,
+#QuickAccess-NA {
+  background: transparent;
+}
+
+#QuickAccess-Menu.quickaccessmenu_QuickAccessMenu {
+  width: 336px;
+  margin: 8px 0 8px 2px;
+  height: calc(100% - 16px);
+  border-radius: var(--float-radius-card);
+  background: var(--float-glass-card) !important;
+  box-shadow: inset 0 0 0 1px var(--float-stroke);
+  overflow: hidden;
+}
+
+/* Tab rail */
+.quickaccessmenu_Tabs {
+  justify-content: flex-start;
+  padding-top: 12px !important;
+  width: 52px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.quickaccessmenu_Tabs::before,
+.quickaccessmenu_Tabs::after {
+  display: none !important;
+}
+
+._2zh9IsDz_TabList {
+  margin: 0 !important;
+}
+
+.quickaccessmenu_Tab {
+  --tab-height: 46px;
+  width: 38px !important;
+  height: 38px !important;
+  margin: 4px 0 4px 9px;
+  border-radius: 12px !important;
+  background: transparent !important;
+  color: var(--float-fg-dim) !important;
+  animation: none !important;
+}
+
+.quickaccessmenu_Tab svg {
+  width: 19px;
+  height: 19px;
+}
+
+.quickaccessmenu_Tab.quickaccessmenu_Selected {
+  background: var(--float-active) !important;
+  color: var(--float-fg) !important;
+}
+
+.quickaccessmenu_Tab.gpfocus,
+.quickaccessmenu_Tab.quickaccessmenu_Selected.gpfocus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+/* Content */
+.quickaccessmenu_PanelOuterNav {
+  border: none;
+  box-shadow: none !important;
+}
+
+.quickaccessmenu_PanelOuterNav::before,
+.quickaccessmenu_PanelOuterNav::after {
+  display: none !important;
+}
+
+.quickaccessmenu_Title {
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.3px;
+  padding-left: 12px !important;
+}
+
+.quickaccessmenu_TabGroupPanel {
+  max-width: 284px !important;
+  padding-right: 8px !important;
+  box-sizing: border-box;
+}
+
+/* Fixed-width controls (sliders) would overflow the narrower card; let them shrink to the row. */
+#QuickAccess-Menu .gamepaddialog_FieldChildrenWithIcon {
+  min-width: 0 !important;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#QuickAccess-Menu .gamepaddialog_FieldChildrenInner {
+  min-width: 0 !important;
+  width: auto;
+  flex: 1 1 auto;
+}
+
+/* Notifications */
+.quickaccesscontrols_QuickAccessNotifications > div + div::before {
+  display: none !important;
+}
+
+.quickaccesscontrols_QuickAccessNotifications > .shorttemplates_StandardTemplateContainer {
+  margin: 0 6px 2px;
+  border-radius: 12px;
+  background: transparent !important;
+  animation: none !important;
+}
+
+.BasicUI .quickaccesscontrols_QuickAccessNotifications > .shorttemplates_StandardTemplateContainer.gpfocus {
+  background: var(--float-focus) !important;
+}
+
+.quickaccesscontrols_QuickAccessNotifications > .gpfocus .shorttemplates_Title,
+.quickaccesscontrols_QuickAccessNotifications > .gpfocus .shorttemplates_StandardNotificationDescription,
+.quickaccesscontrols_QuickAccessNotifications > .gpfocus .shorttemplates_Timestamp {
+  color: var(--float-focus-fg) !important;
+}
+
+.shorttemplates_Title {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.shorttemplates_StandardNotificationDescription {
+  color: var(--float-fg-dim) !important;
+}
+
+.shorttemplates_Timestamp {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.shorttemplates_StandardLogoDimensions {
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.shorttemplates_StandardLogoDimensions img,
+.shorttemplates_StandardLogoDimensions > * {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+/* Section titles */
+.quickaccesscontrols_PanelSectionTitle {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--float-fg-dim) !important;
+}
+
+/* Friends tab: the friends list is drawn on Steam's navy and wider than the card. */
+.friendlist.GamepadMode,
+.FriendsListSteamDeckTopSection {
+  width: 100% !important;
+  background: transparent !important;
+}
+
+/* Decky plugin list: name next to its icon rather than pushed to the right edge. */
+#quickaccess_content_999 button.DialogButton > div {
+  justify-content: flex-start !important;
+  gap: 12px;
+}
+
+.systemmanagement_Text {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  color: var(--float-fg-dim) !important;
+}
+
+/* Pressing Right in the Friends tab opens chats beside the list: Steam slides the window out to its full width.
+   Let the card (and its content column) follow. */
+#QuickAccess-NA.QAMFriendExpanded #QuickAccess-Menu.quickaccessmenu_QuickAccessMenu {
+  width: calc(100% - 12px) !important;
+}
+
+#QuickAccess-NA.QAMFriendExpanded .quickaccessmenu_TabGroupPanel {
+  max-width: none !important;
+}
+
+.QAMFriendExpanded .multiChatDialog,
+.QAMFriendExpanded .SteamDeckChats {
+  background: transparent !important;
+}
+
+.QAMFriendExpanded .friendlist.GamepadMode {
+  border-right: 1px solid var(--float-hairline) !important;
+}
+
+/* Remote Play Together tab (shown while a game runs): its title is a separate component with Steam's navy fade. */
+.remoteplay_QuickAccessTitle {
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.3px;
+}
+
+/* Keyboard button at the foot of the tab rail (shown while a game runs): a rail item like the tabs. */
+.quickaccessmenu_KeyboardButton {
+  width: 38px !important;
+  height: 38px !important;
+  margin: 4px 0 4px 9px;
+  border: none !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  color: var(--float-fg-dim) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quickaccessmenu_KeyboardButton svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.quickaccessmenu_KeyboardButton.gpfocus {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+}
+
+/* While a game runs, Quick Access is a full-height window (marked HeaderAndFooterVisible) that carries its own
+   copy of the status pill, pinned to the top right in header.css. The card starts below it, as it does outside
+   games, and is fully opaque: nothing blurs the game behind this window, and over a game, gamescope draws its
+   partly transparent pixels well below their alpha (94% comes out near 80%, with the game showing through). */
+#QuickAccess-Menu.quickaccessmenu_HeaderAndFooterVisible {
+  margin-top: 48px !important;
+  height: calc(100% - 56px) !important;
+  background: rgb(20, 20, 24) !important;
+}
+
+#QuickAccess-Menu.quickaccessmenu_HeaderAndFooterVisible .quickaccessmenu_HeaderContainer {
+  height: 0 !important;
+}
+
+/* Performance tab's battery readout: Steam sets it at display size (a 24x40 icon, 36px text pinned to the bottom);
+   bring both down to the panel's scale and centre them on one line. */
+.quickaccesscontrols_BatterySectionContainer {
+  align-items: center;
+}
+
+.quickaccesscontrols_BatterySectionContainer .quickaccesscontrols_BatteryIcon {
+  margin-right: 8px;
+}
+
+.quickaccesscontrols_BatterySectionContainer .quickaccesscontrols_BatteryIcon svg {
+  display: block;
+  width: 13px;
+  height: auto;
+}
+
+.quickaccesscontrols_BatterySectionContainer .quickaccesscontrols_BatteryPercentageLabel {
+  align-self: center;
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 24px;
+}
+
+/* The battery icon itself: redrawn as a rounded capsule (Steam's is a square outline with a green level). The capsule
+   (a faint body, and above it a small, brighter terminal that still reads at this size) is the icon's background,
+   drawn in its own 19x33 grid, and Steam's outline is hidden. The level fills the body in white and the charging bolt
+   is cut out in dark; a low battery's warning colour is left alone, since only the green is replaced. */
+svg[viewBox="0 0 19 33"] {
+  /* Below full, Steam shifts the level down past the body; clip everything to the body's sides and rounded bottom
+     (at this 13px width: the body sits 1.71px in from each side and ends 1.37px above the bottom, 2.39px radius).
+     The rounded top corners only cut empty space beside the terminal and above the body. */
+  clip-path: inset(0 1.71px 1.37px 1.71px round 2.39px);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 33'%3E%3Crect x='6.58' y='1.02' width='5.85' height='2.92' rx='1.46' fill='white' fill-opacity='0.6'/%3E%3Crect x='2.5' y='4.5' width='14' height='26.5' rx='3.5' fill='white' fill-opacity='0.16'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+}
+
+svg[viewBox="0 0 19 33"] > path:first-of-type {
+  fill: transparent;
+}
+
+svg[viewBox="0 0 19 33"] > svg {
+  clip-path: inset(0 round 2.5px);
+}
+
+svg[viewBox="0 0 19 33"] rect[fill="#59BF40"] {
+  fill: var(--float-fg);
+}
+
+svg[viewBox="0 0 19 33"] > path:last-of-type:not(:first-of-type) {
+  fill: #141417;
+}

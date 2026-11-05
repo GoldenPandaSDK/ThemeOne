@@ -1,0 +1,178 @@
+/* Float: on-screen keyboard, "solid dock". Steam stacks the keyboard below the page (which shrinks to the space
+   above), so it is styled as a deck attached to the bottom edge: opaque, rounded top corners, a hairline along
+   the top, solid dark key tiles, and the focused key in white. Sizes are CSS px (the UI renders at 1.2x).
+
+   Steam's keyboard themes (Settings > Keyboard) each add their own colours, glows, overlays and image filters;
+   everything below overrides those, so the keyboard looks the same whichever theme is selected. */
+
+:root {
+  --float-kb-dock: #141417;
+  --float-kb-key: #25252b;
+  --float-kb-key-word: #1c1c21;
+  --float-kb-key-on: #3a3a42;
+}
+
+.virtualkeyboardcontainer_VirtualKeyboardContainer {
+  background: var(--float-base) !important;
+}
+
+.virtualkeyboard_Keyboard {
+  margin: 0;
+  padding: 7.5px 7.5px 6px !important;
+  border-radius: 22px 22px 0 0;
+  background: var(--float-kb-dock) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Hit areas keep Steam's sizes; the gaps between keys come from their padding. */
+.virtualkeyboard_KeyboardKeyHitArea {
+  padding: 2.5px !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey {
+  border-radius: 9px;
+  background: var(--float-kb-key) !important;
+  color: var(--float-fg) !important;
+  font-size: 17.5px;
+  font-weight: 600;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  transition: background-color 0.12s ease-out, color 0.12s ease-out;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey::before,
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey::after {
+  display: none !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey img {
+  filter: none !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey svg {
+  width: 18px;
+  height: 18px;
+  color: inherit;
+  fill: currentColor;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey > span {
+  margin: 0;
+}
+
+/* Word keys (Tab, Caps, Shift, Enter, Backspace, Paste, the icon keys): a shade darker, smaller and quieter labels.
+   Steam pins the controller glyph into a corner and the word to the bottom; centre them side by side, glyph first.
+   The key names are matched as quoted attributes: CSS Loader's class translations wrongly map .KeyTheme_Enter
+   onto the class every key has. */
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardMetaKey,
+.virtualkeyboard_Keyboard [class~='KeyTheme_Tab'],
+.virtualkeyboard_Keyboard [class~='KeyTheme_CapsLock'],
+.virtualkeyboard_Keyboard [class~='KeyTheme_Shift'],
+.virtualkeyboard_Keyboard [class~='KeyTheme_Enter'],
+.virtualkeyboard_Keyboard [class~='KeyTheme_Backspace'] {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center !important;
+  gap: 7px;
+  background: var(--float-kb-key-word) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 12.5px !important;
+  font-weight: 650 !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey .virtualkeyboard_ActionButtonGlyph {
+  position: static !important;
+  order: -1;
+  display: flex;
+  height: 16px;
+}
+
+.virtualkeyboard_ActionButtonGlyph img {
+  height: 16px;
+}
+
+/* The space bar: a plain key tile, its Y glyph at the left. */
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardSpacebar {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 12px;
+  background: var(--float-kb-key) !important;
+}
+
+/* Shifted symbols sit small and dim above the label, like a printed keycap. */
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey .virtualkeyboard_ShiftedLabel:not(.virtualkeyboard_ShiftActive) {
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.38) !important;
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 1;
+  margin: 0 0 2px !important;
+  transform: none;
+}
+
+/* Arrow keys carry their shifted icon (Home/End) above too; with no room for it, keep it hidden until Shift. */
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardMetaKey > .virtualkeyboard_ShiftedLabel:not(.virtualkeyboard_ShiftActive) {
+  display: none;
+}
+
+/* With Shift on, Steam marks the shifted symbol ShiftActive (dropping ShiftedLabel) and fades the label: lay the
+   symbol over the key, centred, at the label's size. Icon keys (the arrows become up/down) keep it in the row
+   instead, and lift the hidden icon out of the way. */
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey:not(.virtualkeyboard_KeyboardMetaKey) > .virtualkeyboard_ShiftActive {
+  position: absolute !important;
+  inset: 0;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  transform: none !important;
+  opacity: 1 !important;
+  color: inherit !important;
+  font-size: 17.5px !important;
+  font-weight: 600 !important;
+  line-height: normal !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardMetaKey > .virtualkeyboard_ShiftActive {
+  transform: none !important;
+  margin: 0 !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey .virtualkeyboard_InactiveLabel {
+  opacity: 0 !important;
+  transform: none !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardMetaKey > .virtualkeyboard_InactiveLabel {
+  position: absolute !important;
+}
+
+/* A modifier that is switched on (Caps, or Shift for the next key): a lighter tile and full-strength label. */
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey.virtualkeyboard_ToggleOn,
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey.virtualkeyboard_ToggleOneShot {
+  background: var(--float-kb-key-on) !important;
+  color: var(--float-fg) !important;
+}
+
+/* Focused key: white. Pressed: the same, a touch dimmer. */
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey.virtualkeyboard_Focused,
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey.virtualkeyboard_Touched {
+  background: var(--float-focus) !important;
+  color: var(--float-focus-fg) !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35) !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey.virtualkeyboard_Focused .virtualkeyboard_ShiftedLabel:not(.virtualkeyboard_ShiftActive) {
+  color: rgba(17, 17, 20, 0.5) !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey.virtualkeyboard_Touched:not(.virtualkeyboard_Focused) {
+  background: rgba(255, 255, 255, 0.75) !important;
+}
+
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey.virtualkeyboard_Focused img,
+.virtualkeyboard_Keyboard .virtualkeyboard_KeyboardKey.virtualkeyboard_Touched img {
+  filter: invert(1) !important;
+}

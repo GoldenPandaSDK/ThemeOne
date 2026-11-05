@@ -1,0 +1,92 @@
+{
+  "name": "Float",
+  "display_name": "Float",
+  "author": "andrefgneves",
+  "version": "v1.0.5",
+  "manifest_version": 9,
+  "flags": [
+    "REQUIRE_NAV_PATCH"
+  ],
+  "inject": {
+    "shared.css": [
+      "SP",
+      "QuickAccess",
+      "MainMenu",
+      "notificationtoasts_.*"
+    ],
+    "header.css": [
+      "SP",
+      "QuickAccess"
+    ],
+    "controls.css": [
+      "SP",
+      "QuickAccess",
+      "MainMenu"
+    ],
+    "sp.css": [
+      "SP"
+    ],
+    "qam.css": [
+      "QuickAccess"
+    ],
+    "mainmenu.css": [
+      "MainMenu"
+    ],
+    "toasts.css": [
+      "notificationtoasts_.*"
+    ],
+    "glyphs.css": [
+      "SP",
+      "QuickAccess"
+    ]
+  },
+  "patches": {
+    "Home layout": {
+      "type": "dropdown",
+      "default": "Banner",
+      "values": {
+        "Banner": {},
+        "Shelf": {
+          "home-shelf.css": [
+            "SP"
+          ]
+        }
+      }
+    },
+    "Shelf blur": {
+      "type": "slider",
+      "default": "Medium",
+      "values": {
+        "Off": {
+          "shelf-blur/off.css": [
+            "SP"
+          ]
+        },
+        "Light": {
+          "shelf-blur/light.css": [
+            "SP"
+          ]
+        },
+        "Medium": {
+          "shelf-blur/medium.css": [
+            "SP"
+          ]
+        },
+        "Strong": {}
+      }
+    },
+    "Keyboard": {
+      "type": "checkbox",
+      "default": "Yes",
+      "values": {
+        "Yes": {
+          "keyboard.css": [
+            "SP"
+          ]
+        },
+        "No": {}
+      }
+    }
+  },
+  "id": "1ee17154-c237-42d9-a910-dbe92303950d"
+}

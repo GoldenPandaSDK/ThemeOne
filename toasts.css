@@ -1,0 +1,25 @@
+/* Float: pop-up toasts (their own small window at the bottom right). */
+
+html,
+body {
+  background: transparent !important;
+}
+
+.gamepadtoasts_GamepadToastPopup {
+  right: 12px !important;
+}
+
+.gamepadtoasts_GamepadToastPopup .shorttemplates_ShortTemplate {
+  border-radius: 16px !important;
+  background: rgba(22, 22, 26, 0.94) !important;
+  box-shadow: inset 0 0 0 1px var(--float-stroke), 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+}
+
+.shorttemplates_Title {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.shorttemplates_Body {
+  color: rgba(255, 255, 255, 0.62) !important;
+}

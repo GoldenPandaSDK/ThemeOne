@@ -1,0 +1,140 @@
+/* Float, "Shelf" home layout (theme option): bigger covers in a row centred on the screen, the focused game's title
+   under it, and the hero art reduced to a softly blurred colour field behind everything.
+
+   The row is scaled from its bottom-left corner (see sp.css), so lengths below are in the row's own units. Cover
+   and row sizes come from sp.css (Steam picks them by the screen's size); positions are worked out from the screen's
+   size (vw/vh), so the layout holds at any interface scale. */
+
+:root {
+  --float-carousel-scale: 1.2;
+  /* The covers and the title under them (62px with its subtitle) as one block. */
+  --float-shelf-block-h: calc(var(--float-carousel-scale) * (var(--float-cover-h) + 28px) + 62px);
+  /* The covers' top on screen: the block sits 6% of the screen's height below centre, but never closer than about
+     16px to the button hints (whose top is 43px from the bottom; the focused cover's lift adds a few px to the block),
+     and never above centre. */
+  --float-shelf-cover-top: max(
+    50vh - var(--float-shelf-block-h) / 2,
+    min(50vh - var(--float-shelf-block-h) / 2 + 6vh, 100vh - 65px - var(--float-shelf-block-h))
+  );
+  /* The row's top. The covers sit 120px into the row, and the row's container starts 54px down the screen. */
+  --float-shelf-top: calc((var(--float-shelf-cover-top) - 54px) / var(--float-carousel-scale) - 120px);
+}
+
+/* The row's box clips what it holds, so it reaches further above and below the covers than in the banner layout to
+   fit the larger glow, with padding keeping the covers in place (40px more than sp.css's 80px). */
+.gamepadhomerecentgames_RecentGamesInnerContainer .basicgamecarousel_BasicGameCarousel {
+  top: var(--float-shelf-top) !important;
+  height: calc(var(--float-row-h) + 180px) !important;
+  padding-top: calc(80px + 40px) !important;
+}
+
+/* Steam centres the focused cover using the width it believes the row has (this box's width): it scrolls the
+   focused slot's centre to half that width. On screen that point lands at 11px + scale x (2.8vw + width / 2), and
+   a cover sits 6px left of its slot's centre, so this width puts the focused cover on the screen's centre. The row's
+   own box (below) is wider, reaching past the screen's right edge. */
+.gamepadhomerecentgames_RecentGamesInnerContainer .Panel:has(> .basicgamecarousel_BasicGameCarousel) {
+  width: calc((100vw - 22px) / var(--float-carousel-scale) - 5.6vw + 12px) !important;
+}
+
+.gamepadhomerecentgames_RecentGamesInnerContainer .basicgamecarousel_BasicGameCarousel {
+  width: calc(100% + 48px + 24px + 33.8px) !important;
+}
+
+/* Title just under the focused cover, centred on the screen. Its box spans the screen's full width: on screen its
+   left edge lands at 11px + scale x its offset, so -11px / scale puts it at 0. Sizes are divided by the row's
+   scale, which they inherit. */
+.basicgamecarousel_CarouselGameLabelWrapper {
+  top: calc(var(--float-shelf-top) + 120px + var(--float-cover-h) + 28px) !important;
+  bottom: auto !important;
+  left: calc(-11px / var(--float-carousel-scale)) !important;
+  width: calc(100vw / var(--float-carousel-scale)) !important;
+  justify-content: center;
+}
+
+/* Steam nudges the label 3px left; centred text should sit on the true centre. */
+.basicgamecarousel_CarouselGameLabel {
+  margin-left: 0 !important;
+}
+
+.basicgamecarousel_CarouselGameLabel,
+.basicgamecarousel_CarouselGameLabel .appportrait_PortraitMessage {
+  justify-content: center;
+  align-items: center;
+  text-align: center !important;
+}
+
+.basicgamecarousel_CarouselGameLabel .marquee_Container {
+  justify-content: center;
+}
+
+.basicgamecarousel_CarouselGameLabel .appportrait_Message {
+  font-size: calc(27px / 1.2) !important;
+  line-height: calc(33px / 1.2) !important;
+}
+
+.basicgamecarousel_CarouselGameLabel .appportrait_SubMessage,
+.basicgamecarousel_CarouselGameLabel .basicgamecarousel_SubMessage {
+  font-size: calc(13px / 1.2) !important;
+  line-height: calc(17px / 1.2) !important;
+}
+
+/* Background: the hero art over the whole screen, blurred into colour. Blurring a large image every frame is costly,
+   so the art is drawn at a quarter of the size, blurred, and scaled up (a little more than 4x, to cover the soft
+   edges): the same look for a fraction of the work. The "Shelf blur" option sets these three together (shelf-blur/),
+   drawing the art larger as the blur gets lighter so it stays sharp enough. */
+.gamepadhomerecentgames_RecentGamesBackgroundImages .gamepadhomerecentgames_RecentGamesBackground {
+  inset: auto !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: var(--float-shelf-art-size, 25%) !important;
+  height: var(--float-shelf-art-size, 25%) !important;
+  transform: translate(-50%, -50%) scale(var(--float-shelf-art-scale, 4.6));
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Steam slides the art in and out with keyframes; at this scale those slides would be huge, so they're off and the
+   outgoing art (marked OffScreen) simply fades away over the incoming one. */
+.gamepadhomerecentgames_RecentGamesBackgroundImage {
+  filter: blur(var(--float-shelf-blur, 11px)) saturate(1.3) !important;
+  animation: none !important;
+  transition: opacity 0.5s ease !important;
+}
+
+.gamepadhomerecentgames_RecentGamesBackgroundImage.gamepadhomerecentgames_OffScreen {
+  opacity: 0 !important;
+  background: transparent !important;
+}
+
+.gamepadhomerecentgames_RecentGamesBackgroundContainer::after {
+  background: rgba(14, 14, 16, 0.6) !important;
+}
+
+/* The focused cover's glow: centred behind it as a halo. Its box is the cover's slot, which also holds room for a
+   label below the cover, so it sat lower than the cover; size it to the cover's own box instead (its direct parent,
+   made the positioning reference). The banner layout keeps the lower glow, which falls under its title. */
+.basicgamecarousel_BasicGameCarouselItemMediaContainer > div:has(> .basicgamecarousel_CarouselCapsuleBackgroundGlow) {
+  position: relative;
+}
+
+.basicgamecarousel_BasicGameCarousel .gpfocuswithin ~ .basicgamecarousel_CarouselCapsuleBackgroundGlow {
+  animation-name: float-glow-breathe-centred !important;
+}
+
+/* Against a background blurred from the same art, the glow blends in; brighten it and lighten what is behind it
+   (screen blend) so it reads as light around the cover. */
+.basicgamecarousel_BasicGameCarousel .basicgamecarousel_CarouselCapsuleBackgroundGlow {
+  filter: blur(24px) saturate(2.2) brightness(1.45) !important;
+  mix-blend-mode: screen;
+}
+
+@keyframes float-glow-breathe-centred {
+  from {
+    transform: scale(1.14);
+    opacity: 0.75;
+  }
+  to {
+    transform: scale(1.34);
+    opacity: 1;
+  }
+}
