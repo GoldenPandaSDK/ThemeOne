@@ -167,7 +167,12 @@
    behind the covers: ~78% of its width stays visible. */
 .gamepadhomerecentgames_RecentGamesBackgroundImages .gamepadhomerecentgames_RecentGamesBackground {
   height: 66% !important;
-  animation: none !important;
+  /* Grows to fill the screen as the page scrolls down to the tabs, so the frosted sheet there has art behind all of it
+     (see "Home tabs" below). */
+  animation: float-home-art-grow linear both !important;
+  animation-timeline: --float-home !important;
+  animation-range: 0 60vh !important;
+  transform-origin: 50% 0;
   -webkit-mask-image: linear-gradient(to bottom, #000 38%, rgba(0, 0, 0, 0.78) 58%, rgba(0, 0, 0, 0.42) 76%, rgba(0, 0, 0, 0.14) 90%, transparent 100%) !important;
   mask-image: linear-gradient(to bottom, #000 38%, rgba(0, 0, 0, 0.78) 58%, rgba(0, 0, 0, 0.42) 76%, rgba(0, 0, 0, 0.14) 90%, transparent 100%) !important;
 }
@@ -738,6 +743,13 @@
   animation: none !important;
 }
 
+/* Home tabs: Steam leaves a gap after a tab's title for a count badge, even when there isn't one, which pushed the
+   title left of its capsule's centre. */
+.gamepadhome_TabbedContent .gamepadtabbedpage_Tab:not(:has(.gamepadtabbedpage_TabBadge, .gamepadtabbedpage_TabCount, .gamepadtabbedpage_TabCountBadge)) .gamepadtabbedpage_TabTitle {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
 .gamepadtabbedpage_Tab .gamepadtabbedpage_TabCount {
   color: var(--float-fg-dim) !important;
   font-weight: 600;
@@ -832,6 +844,75 @@
   margin-top: 8px !important;
 }
 
+/* The selected game's art stays put behind the whole page instead of scrolling away, and one frosted sheet attached to
+   the tabs rises over it as you scroll. A single blurred layer costs far less than blurring every card, and the
+   translucent cards above it pick up the art's colours anyway. The art keeps showing the last game selected on the
+   home row. */
+.gamepadhome_ScrollArea {
+  scroll-timeline: --float-home block;
+}
+
+.gamepadhomerecentgames_RecentGamesBackgroundContainer {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  /* Steam's scroll area can start 2px below the screen's top, clipping the frosted sheet there; once the page is down
+     at the tabs, the art stops short of that strip so no sharp art shows above the sheet. */
+  animation: float-home-art-clip linear both;
+  animation-timeline: --float-home;
+  animation-range: 0 90vh;
+}
+
+@keyframes float-home-art-clip {
+  90% {
+    clip-path: inset(0);
+  }
+  to {
+    clip-path: inset(3px 0 0 0);
+  }
+}
+
+@keyframes float-home-art-grow {
+  to {
+    transform: scale(1.515);
+  }
+}
+
+/* The sheet's top edge fades in, and it fades in as a whole while it slides up ahead of the tabs, so it also covers the
+   strip above them by the time the tabs reach the top of the screen. It's taller than the tabs by that same distance. */
+.gamepadhome_TabbedContent .gamepadtabbedpage_GamepadTabbedPage::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -200px;
+  background: rgba(14, 14, 16, 0.64);
+  backdrop-filter: blur(40px) saturate(1.5);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 120px);
+  mask-image: linear-gradient(to bottom, transparent, #000 120px);
+  pointer-events: none;
+  animation: float-home-frost-in linear both;
+  animation-timeline: --float-home;
+  animation-range: 0 90vh;
+}
+
+/* The dark band behind the tab row starts with a hard edge, which would cut a line across the art as the tabs rise. */
+.gamepadhome_TabbedContent .gamepadtabbedpage_TabHeaderRowWrapper::before {
+  display: none !important;
+}
+
+@keyframes float-home-frost-in {
+  from {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-200px);
+  }
+}
+
 /* Selection: an outline on the focused card itself, like the covers on the home row. An outline follows its own
    element's corners, so it matches every card whatever its size or radius. Steam's overlay ring can't: it's a separate
    element that knows the card's position but not its corners. Buttons and tabs have their own white fill. */
@@ -874,7 +955,7 @@
 }
 
 /* Cards get the covers' rounding and a glass finish in place of Steam's navy and blue fills: a translucent white sheen
-   and a hairline edge. No backdrop blur: these sit on the flat base, so it would cost a lot and show nothing.
+   and a hairline edge.
    Classes starting with a hash have no readable name in CSS Loader's translations; if a Steam update renames one, that
    card just falls back to Steam's own look. */
 :root {
@@ -973,7 +1054,31 @@
 /* Float's base and glass in place of Steam's navy gradient, flat rows and blue accents. Classes starting with a hash
    have no readable name in CSS Loader's translations; if a Steam update renames one, that piece keeps Steam's look. */
 .downloads_DownloadsPage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--float-base) !important;
+}
+
+/* The same frosted art as Settings (see "Settings"): the art, reaching past the screen's edges so the blur doesn't fade
+   out at them, and a dark veil over it so text stays easy to read. */
+.downloads_DownloadsPage::before,
+.downloads_DownloadsPage::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.downloads_DownloadsPage::before {
+  inset: -80px;
+  background: url("/themes_custom/Float%20-%20Fabian/images/settings-art.jpg?v=hk") center / cover no-repeat;
+  filter: blur(36px) saturate(1.35);
+}
+
+.downloads_DownloadsPage::after {
+  inset: 0;
+  background: rgba(14, 14, 16, 0.74);
 }
 
 /* Top panel: holds the graph and game art while downloading. Its glass card is a layer behind the contents, so the
@@ -1048,12 +1153,10 @@
 /* Settings (and game properties, the same screen) replace the page entirely, so there's no art behind them to float
    over; so do the controller layout screens (the summary, the overview with the deck drawing, and the settings pages)
    and the SteamGridDB plugin's artwork page, all painted Steam's navy or black.
-   Instead, a barely-there grey smoke: two layers of large, soft fractal noise (mapped to white, with the low
-   end cut off so the clouds have gaps), each drifting and slowly growing or shrinking on its own cycle, so as they
-   pass over each other the clouds seem to change shape. The noise is generated once, as a seamless tile, and the
-   layers are only moved, which costs the GPU next to nothing. Light this faint spans only a few brightness levels;
-   a fine static grain on the dialog breaks up any banding. Steam's own backgrounds (navy for the dialog, grey for
-   its content area) are replaced. */
+   Instead, frosted game art: a fixed image (images/settings-art.jpg, Hollow Knight's hero art; a theme can't follow the
+   last played game, since the home page and its art are gone by the time these screens open), heavily blurred and
+   darkened. A fine static grain on the dialog breaks up any banding. Steam's own backgrounds (navy for the dialog,
+   grey for its content area) are replaced. To use another game's art, replace the image file. */
 .gamepadpagedsettings_PagedSettingsDialog,
 .controllerconfiguratormapping_PagedSettingsDialog,
 .controllerconfiguratorsummary_FlexColumn,
@@ -1066,7 +1169,7 @@
 }
 
 /* SteamGridDB's page starts below the header strip (a top margin); it becomes padding instead, so the page's box,
-   with the smoke and grain on it, covers the strip too, while its content stays where it was. */
+   with the art and grain on it, covers the strip too, while its content stays where it was. */
 #sgdb-wrap {
   box-sizing: border-box;
   height: 100% !important;
@@ -1100,7 +1203,7 @@
   height: 100% !important;
 }
 
-/* The overview with the deck drawing: its full-screen column carries the smoke (it's absolutely positioned, and stays
+/* The overview with the deck drawing: its full-screen column carries the background (it's absolutely positioned, and stays
    so), its navy panel goes clear, and the focused control gets Float's white instead of Steam's blue-grey, its glyph
    inverted to stay visible on it. */
 .gamepadpage_GamepadPage > .controllerconfiguratorsummary_FlexColumn {
@@ -1172,7 +1275,7 @@
 }
 
 /* SteamGridDB's loading screen covers the page in navy while artwork loads; see-through instead, so its spinner
-   sits over the same smoke. */
+   sits over the same background. */
 #sgdb-wrap .spinnyboi {
   background: transparent !important;
 }
@@ -1281,62 +1384,32 @@
 #sgdb-wrap::after {
   content: "";
   position: absolute;
-  inset: -40%;
+  inset: 0;
   z-index: -1;
+  opacity: 1;
+  animation: none;
+  transform: none;
   pointer-events: none;
 }
 
+/* The art, reaching past the screen's edges so the blur doesn't fade out at them. */
 .gamepadpagedsettings_PagedSettingsDialog::before,
 .controllerconfiguratormapping_PagedSettingsDialog::before,
 .controllerconfiguratorsummary_FlexColumn::before,
 .gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::before,
 #sgdb-wrap::before {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.2 0 0 0 -0.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E") 0 0 / 900px 900px repeat;
-  opacity: 0.036;
-  animation: float-settings-smoke-a 38s ease-in-out infinite alternate;
+  inset: -80px;
+  background: url("/themes_custom/Float%20-%20Fabian/images/settings-art.jpg?v=hk") center / cover no-repeat;
+  filter: blur(36px) saturate(1.35);
 }
 
+/* A dark veil over it, so text stays easy to read. */
 .gamepadpagedsettings_PagedSettingsDialog::after,
 .controllerconfiguratormapping_PagedSettingsDialog::after,
 .controllerconfiguratorsummary_FlexColumn::after,
 .gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::after,
 #sgdb-wrap::after {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0021' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.0 0 0 0 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E") 0 0 / 1100px 1100px repeat;
-  opacity: 0.028;
-  animation: float-settings-smoke-b 47s ease-in-out infinite alternate;
-}
-
-@keyframes float-settings-smoke-a {
-  from {
-    transform: translate(-6%, 3%) scale(1);
-  }
-  to {
-    transform: translate(5%, -4%) scale(1.12);
-  }
-}
-
-@keyframes float-settings-smoke-b {
-  from {
-    transform: translate(6%, -2%) scale(1.1);
-  }
-  to {
-    transform: translate(-4%, 5%) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gamepadpagedsettings_PagedSettingsDialog::before,
-  .gamepadpagedsettings_PagedSettingsDialog::after,
-  .controllerconfiguratormapping_PagedSettingsDialog::before,
-  .controllerconfiguratormapping_PagedSettingsDialog::after,
-  .controllerconfiguratorsummary_FlexColumn::before,
-  .controllerconfiguratorsummary_FlexColumn::after,
-  .gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::before,
-  .gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::after,
-  #sgdb-wrap::before,
-  #sgdb-wrap::after {
-    animation: none;
-  }
+  background: rgba(14, 14, 16, 0.74);
 }
 
 /* Settings rows, and every row in the same newer card layout elsewhere (controller screens, plugin pages). Steam now

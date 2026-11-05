@@ -89,6 +89,8 @@
   width: var(--float-shelf-art-size, 25%) !important;
   height: var(--float-shelf-art-size, 25%) !important;
   transform: translate(-50%, -50%) scale(var(--float-shelf-art-scale, 4.6));
+  /* Already fills the screen: the banner layout's grow-on-scroll isn't needed. */
+  animation: none !important;
   -webkit-mask-image: none !important;
   mask-image: none !important;
 }
