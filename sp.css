@@ -1072,7 +1072,7 @@
 
 .downloads_DownloadsPage::before {
   inset: -80px;
-  background: url("/themes_custom/Float%20-%20Fabian/images/settings-art.jpg?v=hk") center / cover no-repeat;
+  background: url("/themes_custom/Float%20-%20Fabian/images/settings-art.jpg?v=room") center / cover no-repeat;
   filter: blur(36px) saturate(1.35);
 }
 
@@ -1153,7 +1153,7 @@
 /* Settings (and game properties, the same screen) replace the page entirely, so there's no art behind them to float
    over; so do the controller layout screens (the summary, the overview with the deck drawing, and the settings pages)
    and the SteamGridDB plugin's artwork page, all painted Steam's navy or black.
-   Instead, frosted game art: a fixed image (images/settings-art.jpg, Hollow Knight's hero art; a theme can't follow the
+   Instead, frosted game art: a fixed image (images/settings-art.jpg, a snowy room at night; a theme can't follow the
    last played game, since the home page and its art are gone by the time these screens open), heavily blurred and
    darkened. A fine static grain on the dialog breaks up any banding. Steam's own backgrounds (navy for the dialog,
    grey for its content area) are replaced. To use another game's art, replace the image file. */
@@ -1399,7 +1399,7 @@
 .gamepadpage_GamepadPage:has(> .controllerconfigurator_ControllerConfiguratorMain)::before,
 #sgdb-wrap::before {
   inset: -80px;
-  background: url("/themes_custom/Float%20-%20Fabian/images/settings-art.jpg?v=hk") center / cover no-repeat;
+  background: url("/themes_custom/Float%20-%20Fabian/images/settings-art.jpg?v=room") center / cover no-repeat;
   filter: blur(36px) saturate(1.35);
 }
 
